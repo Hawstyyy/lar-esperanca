@@ -1,2 +1,5 @@
 user: 'lar_admin2024',
-senha:'laradmin1'
+senha:'laradmin1',
+host:db4free.net
+Banco de dados: laresperanca
+Nome de usuário: lar_admin2024
