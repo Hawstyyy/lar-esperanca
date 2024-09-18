@@ -1,8 +1,8 @@
--- Active: 1726579801054@@db4free.net@3306@laresperanca
+-- Active: 1726694920059@@db4free.net@3306@laresperanca
 use laresperanca;
 
-CREATE Table usuario (
-    id_usuario INT PRIMARY KEY AUTO_INCREMENT,
+CREATE Table funcionario (
+    id_funcionario INT PRIMARY KEY AUTO_INCREMENT,
     cpf VARCHAR(15),
     senha VARCHAR(70),
     nome_completo VARCHAR(100),
@@ -19,8 +19,8 @@ CREATE Table estado_risco (
 CREATE Table paciente (
     id_paciente INT PRIMARY KEY AUTO_INCREMENT,
     nome_paciente VARCHAR(100),
-    id_usuario int,
-    Foreign Key (id_usuario) REFERENCES usuario(id_usuario)
+    id_funcionario int,
+    Foreign Key (id_funcionario) REFERENCES funcionario(id_funcionario)
 );
 
 CREATE TABLE remedio (
@@ -47,19 +47,19 @@ CREATE Table sinal_vital (
     pressao_cardiaca SMALLINT,
     saturacao SMALLINT,
     id_estado_risco INT,
-    id_usuario INT,
-    Foreign Key (id_usuario) REFERENCES usuario(id_usuario),
+    id_funcionario INT,
+    Foreign Key (id_funcionario) REFERENCES funcionario(id_funcionario),
     Foreign Key (id_estado_risco) REFERENCES estado_risco(id_estado_risco)
 );
 
 CREATE TABLE intercorrencia(
     id_intercorrencia INT PRIMARY KEY AUTO_INCREMENT,
-    id_usuario INT,
+    id_funcionario INT,
     id_paciente INT,
     id_sinal_vital INT,
     texto TEXT,
     data_intercorrencia DATE,
-    Foreign Key (id_usuario) REFERENCES usuario(id_usuario),
+    Foreign Key (id_funcionario) REFERENCES funcionario(id_funcionario),
     Foreign Key (id_paciente) REFERENCES paciente(id_paciente),
     Foreign Key (id_sinal_vital) REFERENCES sinal_vital(id_sinal_vital)
 );
