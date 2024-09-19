@@ -20,6 +20,7 @@ CREATE Table paciente (
     id_paciente INT PRIMARY KEY AUTO_INCREMENT,
     nome_paciente VARCHAR(100),
     id_funcionario int,
+    status_paciente BOOLEAN,
     Foreign Key (id_funcionario) REFERENCES funcionario(id_funcionario)
 );
 
