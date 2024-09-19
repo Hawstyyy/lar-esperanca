@@ -4,6 +4,7 @@ from tkinter import ttk
 from tkinter import messagebox
 import pymysql.cursors # pip install PyMySQL para adquirir essa blibioteca
 # Tkinter é utilizado para criação da interface e janela.
+from tabela_pacientes import TabelaPaciente
 
 
 
