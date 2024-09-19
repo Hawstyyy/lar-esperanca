@@ -1,5 +1,6 @@
--- Active: 1726694920059@@db4free.net@3306@laresperanca
+-- Active: 1726756977448@@db4free.net@3306@laresperanca
 use laresperanca;
+
 
 CREATE Table funcionario (
     id_funcionario INT PRIMARY KEY AUTO_INCREMENT,
@@ -46,7 +47,7 @@ CREATE Table sinal_vital (
     pressao_diastolica SMALLINT,
     pressao_sistolica SMALLINT,
     pressao_cardiaca SMALLINT,
-    saturacao SMALLINT,
+    saturacao FLOAT,
     id_estado_risco INT,
     id_funcionario INT,
     Foreign Key (id_funcionario) REFERENCES funcionario(id_funcionario),
@@ -68,3 +69,5 @@ CREATE TABLE intercorrencia(
 INSERT INTO estado_risco VALUES 
 (null, 'Normal'),
 (null, 'Risco');
+
+describe sinal_vital;
