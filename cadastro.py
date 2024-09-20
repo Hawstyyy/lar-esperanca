@@ -46,8 +46,14 @@ class Cadastro():
     endereco_label = ctk.CTkLabel(frame, text='Endereço', text_color='Black', font=("Segoe UI", 24, "bold"))
     endereco_label.place(rely=0.54,relx=0.42, anchor="ne")
 
-    data_de_nascimento = ctk.CTkEntry(frame, width=440, height=42, fg_color="#8ED6D0", border_width=0, text_color='Black', font=("Segoe UI", 24))
-    data_de_nascimento.place(rely=0.7,relx=0.5, anchor="center")
+    data = ctk.CTkEntry(frame, width=60, height=42, fg_color="#8ED6D0", border_width=0, text_color='Black', font=("Segoe UI", 24))
+    data.place(rely=0.7,relx=0.365, anchor="center")
+
+    mes = ctk.CTkEntry(frame, width=60, height=42, fg_color="#8ED6D0", border_width=0, text_color='Black', font=("Segoe UI", 24))
+    mes.place(rely=0.7,relx=0.41, anchor="center")
+
+    ano = ctk.CTkEntry(frame, width=60, height=42, fg_color="#8ED6D0", border_width=0, text_color='Black', font=("Segoe UI", 24))
+    ano.place(rely=0.7,relx=0.455, anchor="center")
 
     data_de_nascimento_label = ctk.CTkLabel(frame, text='Data de nascimento', text_color='Black', font=("Segoe UI", 24, "bold"))
     data_de_nascimento_label.place(rely=0.64,relx=0.502, anchor="ne")
