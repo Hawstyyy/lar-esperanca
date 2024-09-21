@@ -15,16 +15,16 @@ class Utils:
         Retorna o caminho para a pasta atual em que o script se encontra. Util para adicionar caminho para imagens e outros.
 
         Args:
-            file: Um arquivo ou pasta escifica. Podendo conter outro caminho.
+            file: Um arquivo ou pasta específica, podendo conter outro caminho.
 
         Returns:
             Uma string contendo o caminho como: 'C:\\users\\joaozinho\\py'.
 
         Examples:
-            basePath()
-                'C:\\users\\joaozinho\\py'
-            basePath('imagem.png')
-                'C:\\users\\joaozinho\\py\\imagem.png'
+            basePath()\n
+            ->\t'C:\\users\\joaozinho\\py'\n
+            basePath('imagem.png')\n
+            ->\t'C:\\users\\joaozinho\\py\\imagem.png'
         """
         if(file):
             return os.path.dirname(os.path.abspath(sys.argv[0])) + f'\\{file}'
