@@ -7,7 +7,7 @@ class Hotbar(ctk.CTkFrame):
     def __init__(self, master: ctk.CTkFrame):
         super().__init__(master)
 
-        self.configure(height=98, fg_color='#8ED6D0')
+        self.configure(height=98, fg_color='#8ED6D0', corner_radius=0)
 
         self.l_logo = ctk.CTkLabel(self, text='', image=U.imagemCTK('imagens/logo.png', 98, 98))
         self.l_logo.place(relx=.5, rely=.5, anchor='center')
@@ -23,7 +23,7 @@ if __name__ == '__main__':
     janela.title("Login")
     janela.resizable(False, False)
 
-    hotbar_frame = ctk.CTkFrame(janela, width=janela.winfo_width(), height=98, fg_color='#8ED6D0')
+    hotbar_frame = ctk.CTkFrame(janela, width=janela.winfo_width(), height=98, fg_color='#8ED6D0', corner_radius=0)
     hotbar_frame.place(relx=.5, rely=.045, anchor="center")
 
     logo_label = ctk.CTkLabel(hotbar_frame, text='', image=U.imagemCTK('imagens/logo.png', 98, 98))
