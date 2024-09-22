@@ -1,8 +1,6 @@
 import customtkinter as ctk
 from util import Utils as U
-#, width: int = 200, height: int = 98, corner_radius: int | str | None = None, border_width: int | str | None = None, bg_color: str | Image.Tuple[str] = "transparent", fg_color: str | Image.Tuple[str] | None = None, border_color: str | Image.Tuple[str] | None = None, background_corner_colors: Image.Tuple[str | Image.Tuple[str]] | None = None, overwrite_preferred_drawing_method: str | None = None, **kwargs
 
-#, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs
 class Hotbar(ctk.CTkFrame):
     def __init__(self, master: ctk.CTkFrame):
         super().__init__(master)
