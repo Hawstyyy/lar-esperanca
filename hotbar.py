@@ -1,29 +1,30 @@
 import customtkinter as ctk
-from tkinter import ttk
-from tkinter import messagebox
-from PIL import Image
+from util import Utils as U
 
-# TELA --------------------------------------------------------
+class Hotbar(ctk.CTkFrame):
+    def __init__(self, master: ctk.CTkFrame):
+        super().__init__(master)
 
-janela = ctk.CTk()
-janela.after(0, janela.state('zoomed'))
-janela.configure(fg_color='#F0F8FF')
-janela.title("Login")
-janela.resizable(False, False)
+        self.configure(height=98, fg_color='#8ED6D0', corner_radius=0)
 
-def imagem(path, largura, altura):
-    img = Image.open(path).convert("RGBA")
-    return ctk.CTkImage(
-        light_image=img,
-        dark_image=img,
-        size=(largura, altura)
-    )
+        self.l_logo = ctk.CTkLabel(self, text='', image=U.imagemCTK('imagens/logo.png', 98, 98))
+        self.l_logo.place(relx=.5, rely=.5, anchor='center')
 
-hotbar_frame = ctk.CTkFrame(janela, width=janela.winfo_width(), height=98, fg_color='#8ED6D0')
-hotbar_frame.place(relx=.5, rely=.045, anchor="center")
+        self.place(relx=0.5, rely=0, anchor='n', relwidth=1)
 
-logo_label = ctk.CTkLabel(hotbar_frame, text='', image=imagem('imagens/logo.png', 98, 98))
-logo_label.place(relx=.5, rely=.5, anchor='center')
+#-------------------------------TELA -------------------------
+if __name__ == '__main__':
+    janela = ctk.CTk()
+    janela.geometry(f'{janela.winfo_width()}x{janela.winfo_height()}')
+    janela.state('zoomed')
+    janela.configure(fg_color='#F0F8FF')
+    janela.title("Login")
+    janela.resizable(False, False)
 
+    hotbar_frame = ctk.CTkFrame(janela, width=janela.winfo_width(), height=98, fg_color='#8ED6D0', corner_radius=0)
+    hotbar_frame.place(relx=.5, rely=.045, anchor="center")
 
-janela.mainloop()
+    logo_label = ctk.CTkLabel(hotbar_frame, text='', image=U.imagemCTK('imagens/logo.png', 98, 98))
+    logo_label.place(relx=.5, rely=.5, anchor='center')
+
+    janela.mainloop()
