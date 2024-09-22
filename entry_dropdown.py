@@ -3,8 +3,8 @@ import customtkinter as ctk
 from customtkinter import CTkFrame
 from util import Utils as U
 
-
 class EntryDropdown(CTkFrame):
+    """Um entry que quando editado abre um menu Dropdown com uma lista de valores. Selecionar um valor aplica o valor ao Entry e remove a lista da tela"""
     def __init__(self, master: CTkFrame, width: int = 200, height: int = 200, corner_radius: int | str | None = None, border_width: int | str | None = None, bg_color: str | Tuple[str, str] = "transparent", fg_color: str | Tuple[str, str] | None = None, border_color: str | Tuple[str, str] | None = None, background_corner_colors: Tuple[str | Tuple[str, str]] | None = None, overwrite_preferred_drawing_method: str | None = None, values:list[str] = None, **kwargs):
         super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs)
 
