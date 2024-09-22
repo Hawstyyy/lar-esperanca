@@ -15,7 +15,7 @@ class Receita(CTkFrame):
     def __init__(self, master: CTkFrame):
         super().__init__(master)
 
-        self.configure(fg_color='black', corner_radius=0)
+        self.configure(fg_color='white', corner_radius=0)
         self.place(relheigh=1, relwidth=1)
 
         self.f_hotbar = Hotbar(self)
