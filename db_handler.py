@@ -10,7 +10,7 @@ class DB:
         self.cursor: pymysql.cursors.Cursor = self.database.cursor()
 
     def close(self):
-        """Fecha a conexão com o banco. Importante para não empedir novas conexões"""
+        """Fecha a conexão com o banco. Importante para não impedir novas conexões"""
         self.cursor.close()
         self.database.close()
 
