@@ -3,6 +3,7 @@ from customtkinter import CTkFrame
 from tkinter import messagebox
 from util import Utils as U
 from hotbar import Hotbar
+from db_handler import DB
 
 #-----------------------TELA --------------------------------
 
@@ -14,7 +15,7 @@ class Receita(CTkFrame):
     def __init__(self, master: CTkFrame):
         super().__init__(master)
 
-        self.configure(fg_color='white')
+        self.configure(fg_color='black', corner_radius=0)
         self.place(relheigh=1, relwidth=1)
 
         self.f_hotbar = Hotbar(self)
@@ -33,7 +34,15 @@ class Receita(CTkFrame):
         def optionmenu_callback(choice):
             print("optionmenu dropdown clicked:", choice)
 
-        self.lista_pacientes = ['\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t','Lucas', 'Ana', 'João', 'Maria', 'Pedro', 'Carolina', 'Rafael', 'Juliana', 'Bruno', 'Fernanda']
+        #Pegando lista de Pacientes do banco
+        self.db = DB()
+        self.db.exec('select nome_paciente from paciente')
+
+        self.lista_pacientes =  [item[0] for item in self.db.f_all()]
+        self.lista_pacientes.insert(0, '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t')
+        self.db.close()
+
+        #Dropdown
         self.optionmenu = ctk.CTkOptionMenu(
             self.f_holder,
             fg_color=self.COR,
@@ -65,8 +74,9 @@ class Receita(CTkFrame):
         self.e_hora_inicial = ctk.CTkEntry(self.f_holder, corner_radius=10, fg_color=self.COR, font=U.f_simples,text_color=self.TX,  border_width=0)
         self.e_hora_inicial.place(relx=1, rely=0.55, anchor='ne', relwidth=0.42)
 
-        self.b_adicionar = ctk.CTkButton(self.f_holder, text='ADICIONAR', corner_radius=10, fg_color=self.COR, font=U.f_simples,text_color=self.TX,  border_width=0, command=lambda: print('yeee'), hover_color='#2D5E6C')
+        self.b_adicionar = ctk.CTkButton(self.f_holder, text='ADICIONAR', corner_radius=10, fg_color=self.COR, font=U.f_simples,text_color=self.TX,  border_width=0, command=lambda: print('yoo'), hover_color='#2D5E6C')
         self.b_adicionar.place(relx=0.5, rely=0.7, anchor='n')
+
 
 if __name__ == "__main__":
     root = ctk.CTk()
