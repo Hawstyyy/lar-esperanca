@@ -34,7 +34,7 @@ class Utils:
         return os.path.dirname(os.path.abspath(sys.argv[0]))
 
     @staticmethod
-    def toSHA256(string: str) -> str:
+    def toHash(string: str) -> str:
         """
         Retorna a Hash da string de entrada, utilizando algoritmo SHA256
 
