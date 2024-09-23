@@ -47,7 +47,7 @@ CREATE Table sinal_vital (
     pressao_diastolica SMALLINT,
     pressao_sistolica SMALLINT,
     pressao_cardiaca SMALLINT,
-    saturacao SMALLINT,
+    saturacao FLOAT,
     id_estado_risco INT,
     id_funcionario INT,
     Foreign Key (id_funcionario) REFERENCES funcionario(id_funcionario),
