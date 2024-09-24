@@ -1,4 +1,4 @@
--- Active: 1726798438564@@35.198.53.133@3306@laresperanca
+-- Active: 1726844979079@@35.198.53.133@3306@laresperanca
 use laresperanca;
 
 CREATE Table funcionario (
@@ -50,19 +50,19 @@ CREATE Table sinal_vital (
     saturacao FLOAT,
     id_estado_risco INT,
     id_funcionario INT,
+    id_paciente INT,
     Foreign Key (id_funcionario) REFERENCES funcionario(id_funcionario),
-    Foreign Key (id_estado_risco) REFERENCES estado_risco(id_estado_risco)
+    Foreign Key (id_estado_risco) REFERENCES estado_risco(id_estado_risco),
+    Foreign Key (id_paciente) REFERENCES paciente(id_paciente)
 );
 
 CREATE TABLE intercorrencia(
     id_intercorrencia INT PRIMARY KEY AUTO_INCREMENT,
     id_funcionario INT,
-    id_paciente INT,
     id_sinal_vital INT,
     texto TEXT,
     data_intercorrencia DATE,
     Foreign Key (id_funcionario) REFERENCES funcionario(id_funcionario),
-    Foreign Key (id_paciente) REFERENCES paciente(id_paciente),
     Foreign Key (id_sinal_vital) REFERENCES sinal_vital(id_sinal_vital)
 );
 
