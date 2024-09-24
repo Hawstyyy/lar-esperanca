@@ -2,6 +2,7 @@ from typing import Tuple
 import customtkinter as ctk
 from customtkinter import CTkFrame
 from util import Utils as U
+from db_handler import DB
 
 class EntryDropdown(CTkFrame):
     """Um entry que quando editado abre um menu Dropdown com uma lista de valores. Selecionar um valor aplica o valor ao Entry e remove a lista da tela"""
@@ -77,6 +78,10 @@ if __name__ == "__main__":
     root.configure(fg_color='white')
     root.title("Nova Receita")
     root.resizable(False, False)
-    frame = EntryDropdown(root,values=['maria', 'joao', 'felipe', 'carlos'])
+    db = DB()
+    db.exec('select nome_paciente from paciente')
+    funcionarios = [nome[0] for nome in db.f_many(10)]
+    print(funcionarios)
+    frame = EntryDropdown(root, width=550,values=funcionarios)
     frame.place(relx=0.5,rely=0.5, anchor='n')
     root.mainloop()

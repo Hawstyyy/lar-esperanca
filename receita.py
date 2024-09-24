@@ -19,7 +19,8 @@ class Receita(CTkFrame):
         self.configure(fg_color='white', corner_radius=0)
         self.place(relheigh=1, relwidth=1)
 
-        self.f_hotbar = Hotbar(self)
+        self.f_hotbar = Hotbar(self, 'Brabo')
+        #self.f_hotbar.user_forget()
 
         #Frame 
         self.f_holder = CTkFrame(
