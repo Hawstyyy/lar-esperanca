@@ -23,6 +23,7 @@ def abrir_registros():
 def novo_registro():
     messagebox.showinfo("Novo Registro", "Tela de novo registro em desenvolvimento")
 
+#Socorro
 # TELA --------------------------------------------------------
 janela = ctk.CTk()
 janela.after(0, janela.state('zoomed'))
