@@ -11,7 +11,7 @@ class Hotbar(ctk.CTkFrame):
         self.l_logo.place(relx=.5, rely=.5, anchor='center')
 
         self.place(relx=0.5, rely=0, anchor='n', relwidth=1)
-        exit_label.unbind("<Button-1>") #não sei se ao alterar de páginas vai acumular funções bind, então melhor prevenir
+      #  exit_label.unbind("<Button-1>") #não sei se ao alterar de páginas vai acumular funções bind, então melhor prevenir
 
 #-------------------------------TELA -------------------------
 if __name__ == '__main__':

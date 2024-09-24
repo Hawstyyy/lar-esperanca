@@ -11,6 +11,7 @@ class Intercorrencia:
     self.frame = ctk.CTkFrame(self.root, fg_color='white', corner_radius=0)
     self.frame.place(relwidth=1, relheight=1)
     self.f_hotbar = Hotbar(self.frame)
+    self.root.title("Lar Esperança")
 
   def set_geometry(self, master, width, height):
     screen_width = self.root.winfo_screenwidth()
