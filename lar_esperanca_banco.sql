@@ -117,3 +117,7 @@ VALUES
 ('Diclofenaco 50mg'),
 ('Diclofenaco 75mg'),
 ('Prednisona 20mg');
+
+insert into sinal_vital (temperatura, pressao_sistolica, pressao_diastolica, pressao_cardiaca, saturacao, id_estado_risco, id_funcionario, id_paciente) values(0.5, 3, 4, 2, 1, 1, 1, 1);
+
+insert into sinal_vital (temperatura, pressao_sistolica, pressao_diastolica, pressao_cardiaca, saturacao, id_estado_risco, id_funcionario, id_paciente) values(0.56, 3, 4, 2, 1, 1, 1, 1);
