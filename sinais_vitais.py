@@ -2,7 +2,7 @@ import customtkinter as ctk
 from PIL import Image
 import os, sys
 from hotbar import Hotbar
-import util
+from util import imagemCTK
 import db_handler as db
  
 class Sinais_vitais():
@@ -72,14 +72,14 @@ class Sinais_vitais():
 
   def sinais_vitais(self):
     
-    #self.f_hotbar = Hotbar(self.root)
-    
+    # Hotbar
+    hot = Hotbar(self.p_sinal_vital, "Sinal Vital")
     # Imagem texto encima
     registrar_sinal_vital_texto = ctk.CTkLabel(self.p_sinal_vital, text= "Registrar Sinal Vital", text_color="black", font= ("Segoe UI",40))
     registrar_sinal_vital_texto.place(rely = 0.25, relx = 0.5, anchor = "center")
     width_tela = self.root.winfo_width()
     
-    curva_place = ctk.CTkLabel(self.p_sinal_vital, image=util.Utils.imagemCTK("imagens/linha_torcida.png",344,36), text='')
+    curva_place = ctk.CTkLabel(self.p_sinal_vital, image=imagemCTK("imagens/linha_torcida.png",344,36), text='')
     curva_place.place(rely=0.3, relx=0.5, anchor="center")
     
     # Entries do sinal vital
@@ -126,7 +126,7 @@ class Sinais_vitais():
     b_registro.place(rely = 0.8, relx = 0.5, anchor = "center")
 
     # Imagem de curva embaixo
-    curva_place = ctk.CTkLabel(self.p_sinal_vital, image= util.Utils.imagemCTK("curva.png", width_tela,151), text='')
+    curva_place = ctk.CTkLabel(self.p_sinal_vital, image= imagemCTK("imagens/curva_rodape.png", width_tela,151), text='')
     curva_place.place(rely=0.925, relx=0.5, anchor="center")
 
     self.atualizar_status()
