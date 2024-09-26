@@ -2,7 +2,7 @@ from typing import Tuple
 import customtkinter as ctk
 from customtkinter import CTkFrame
 from tkinter import messagebox
-from util import Utils as U
+from util import imagemCTK, FontsUI
 from hotbar import Hotbar
 from db_handler import DB
 
@@ -36,14 +36,14 @@ class Receita(CTkFrame):
             self.f_holder,
             text='Nova Receita',
             fg_color=self.BGC,
-            font=U.f_titulo,
+            font=FontsUI.titulo,
             text_color=self.TX
         ).place(relx=0.5, rely=0, anchor='n')
 
         ctk.CTkLabel(
             self.f_holder,
             text='',
-            image=U.imagemCTK('imagens/linha_torcida.png', 344, 36)
+            image=imagemCTK('imagens/linha_torcida.png', 344, 36)
         ).place(relx=0.5, rely=0.1, anchor='n')
 
         #Nome paciente
@@ -51,7 +51,7 @@ class Receita(CTkFrame):
             self.f_holder,
             text='Nome do paciente',
             fg_color=self.BGC,
-            font=U.f_simples,
+            font=FontsUI.simples,
             text_color=self.TX,
             anchor='w'
         ).place(relx=0.5, rely=0.25, anchor='s', relwidth=1)
@@ -72,10 +72,10 @@ class Receita(CTkFrame):
             self.f_holder,
             fg_color=self.COR,
             text_color='#ffffff',
-            font=U.f_simples,
+            font=FontsUI.simples,
             corner_radius=10,
             dropdown_fg_color=self.COR,
-            dropdown_font=U.f_simples,
+            dropdown_font=FontsUI.simples,
             dropdown_hover_color='white',
             dropdown_text_color='#ffffff',
             button_color='#2D5E6C',
@@ -89,7 +89,7 @@ class Receita(CTkFrame):
             self.f_holder,
             text='Remédio',
             fg_color=self.BGC,
-            font=U.f_simples,
+            font=FontsUI.simples,
             text_color=self.TX,
             anchor='w'
         ).place(relx=0.5, rely=0.4, anchor='s', relwidth=1)
@@ -98,7 +98,7 @@ class Receita(CTkFrame):
             self.f_holder,
             corner_radius=10,
             fg_color=self.COR,
-            font=U.f_simples,
+            font=FontsUI.simples,
             text_color='#ffffff',
             border_width=0
         )
@@ -118,7 +118,7 @@ class Receita(CTkFrame):
             self.f_holder,
             corner_radius=10,
             fg_color=self.COR,
-            font=U.f_simples,
+            font=FontsUI.simples,
             text_color='#ffffff',
             border_width=0
         )
@@ -129,7 +129,7 @@ class Receita(CTkFrame):
             self.f_holder,
             text='Intervalo(horas)',
             fg_color=self.BGC,
-            font=U.f_simples,
+            font=FontsUI.simples,
             text_color=self.TX,
             anchor='w'
         ).place(relx=1, rely=0.55, anchor='se', relwidth=0.42)
@@ -138,7 +138,7 @@ class Receita(CTkFrame):
             self.f_holder,
             corner_radius=10,
             fg_color=self.COR,
-            font=U.f_simples,
+            font=FontsUI.simples,
             text_color='#ffffff',
             border_width=0
         )
@@ -149,7 +149,7 @@ class Receita(CTkFrame):
             text='ADICIONAR',
             corner_radius=10,
             fg_color=self.COR,
-            font=U.f_simples,
+            font=FontsUI.simples,
             text_color='#ffffff',
             border_width=0,
             command=

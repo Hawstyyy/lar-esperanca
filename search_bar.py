@@ -1,7 +1,7 @@
 from typing import Tuple
 import customtkinter as ctk
 from customtkinter import CTkFrame
-from util import Utils as U
+from util import FontsUI as F
 from db_handler import DB
 
 class SearchBar(CTkFrame):
@@ -30,7 +30,7 @@ class SearchBar(CTkFrame):
             corner_radius=5,
             fg_color=self._COR,
             text_color=self._WT,
-            font=U.f_simples,
+            font=F.simples,
             border_width=0,
             height=40,
             width=self.winfo_reqwidth(),
@@ -73,7 +73,7 @@ class SearchBar(CTkFrame):
                     text=item,
                     corner_radius=5,
                     fg_color=self._COR,
-                    font=U.f_simples,
+                    font=F.simples,
                     text_color='#ffffff',
                     border_width=0,
                     height=40,
