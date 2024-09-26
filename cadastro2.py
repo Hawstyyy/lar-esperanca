@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from PIL import Image
 import os, sys
-from cadastro import Cadastro
+from hotbar import Hotbar
 from intercorrencia import Intercorrencia
 import util
 
@@ -13,6 +13,7 @@ class Cadastro2:
     Intercorrencia().set_geometry(self.root ,1440 ,900)
     self.root.resizable(False, False)
     self.root.title("Lar esperança")
+    hotbar = Hotbar(self.root)
 
   def cadastro2(self):
     div = ctk.CTkFrame(self.root, fg_color='#2D5E6C', width=440, height=2, corner_radius=0)
