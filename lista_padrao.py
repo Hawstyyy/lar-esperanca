@@ -15,93 +15,76 @@ back_icon = ctk.CTkLabel(janela, text='', image=U.imagemCTK('imagens/hotbar/back
 back_icon.place(relx=.02, rely=.12, anchor='center')
 
 dic_teste = {
-    'Paciente 1': ['33º', '72', '120/80', '98%'],
-    'Paciente 2': ['34º', '68', '115/75', '96%'],
-    'Paciente 3': ['32º', '75', '118/78', '99%'],
-    'Paciente 4': ['33º', '70', '122/80', '97%'],
-    'Paciente 5': ['34º', '65', '110/70', '95%'],
-    'Paciente 6': ['33º', '80', '125/82', '100%'],
-    'Paciente 7': ['35º', '74', '119/77', '97%'],
-    'Paciente 8': ['33º', '78', '117/79', '98%'],
-    'Paciente 9': ['32º', '69', '116/76', '96%'],
-    'Paciente 10': ['34º', '73', '121/81', '97%'],
-    'Paciente 11': ['33º', '67', '113/72', '95%']
+    'Paciente 1': ['33º', '72', '120/80', '98%', 0],
+    'Paciente 2': ['34º', '68', '115/75', '96%', 0],
+    'Paciente 3': ['32º', '75', '118/78', '99%', 1],
+    'Paciente 4': ['33º', '70', '122/80', '97%', 0],
+    'Paciente 5': ['34º', '65', '110/70', '95%',1],
+    'Paciente 6': ['33º', '80', '125/82', '100%', 1],
+    'Paciente 7': ['35º', '74', '119/77', '97%', 1],
+    'Paciente 8': ['33º', '78', '117/79', '98%', 0],
+    'Paciente 9': ['32º', '69', '116/76', '96%', 0],
+    'Paciente 10': ['34º', '73', '121/81', '97%', 1],
+    'Paciente 11': ['33º', '67', '113/72', '95%', 0]
 }
 
+headers = ["Paciente", "Temperatura", "Cardíaca", "Arterial", "Saturação", "Status"]
+
 search_frm = ctk.CTkFrame(janela, width=200, height=70)
-search_frm.place(relx=.05, rely= 0.25) # Isso provávelmente ta torto mas não é que vou fazer então lero lero lero
+search_frm.place(relx=.05, rely=0.25)
 
 tt_lbl = ctk.CTkLabel(janela, text='Registros', font=(U.f_titulo), text_color='#1C3942')
 tt_lbl.place(relx=.5, rely=0.18, anchor='center')
 
-reg_frm = ctk.CTkFrame(janela, width=1450, height=660, fg_color='#FAFEFC', corner_radius=10)
+# Frame principal
+reg_frm = ctk.CTkFrame(janela, width=1450, height=640, fg_color='transparent', corner_radius=10)
 reg_frm.place(relx=.2, rely=.23)
 
-# Eu me arrependo profundamente de não ter usado pack ou grid desde o inicio
-
+# Configuração do grid para o cabeçalho
+reg_frm.grid_rowconfigure(0, weight=1)  
+reg_frm.grid_rowconfigure(1, weight=99)
 reg_frm.columnconfigure(0, weight=1)
-reg_frm.columnconfigure(4,  weight=1)
-reg_frm.pack_propagate(False)
 reg_frm.grid_propagate(False)
 
-def inserir_registros_com_grid(frame, dic_pacientes):
-    # Cabeçalho
-    headers = ["Paciente", "Temperatura", "Cardíaca", "Arterial", "Saturação"]
-    
-    # Frame de fundo para o cabeçalho
-    header_bg_frame = ctk.CTkFrame(frame, fg_color='#48818D', corner_radius=10)
-    header_bg_frame.grid(row=0, column=0, columnspan=len(headers), padx=10, pady=(20, 10), sticky='ew')
-    
-    # Os títulos de cada info da tabela
-    for col, header in enumerate(headers):
-        header_label = ctk.CTkLabel(header_bg_frame, text=header, font=U.f_titulo, text_color='#FFFFFF')
-        header_label.grid(row=0, column=col, padx=20, pady=(10, 10), sticky='ew')
+header_frm = ctk.CTkFrame(reg_frm, fg_color='#48818D', height=80, corner_radius=10)
+header_frm.grid(row=0, column=0, sticky='nsew', pady=(0,20))
+header_frm.grid_propagate(False)
 
-    # Isso é pra ajustar o bg do header
-    for col in range(len(headers)):
-        header_bg_frame.columnconfigure(col, weight=1)  # Para expansão de colunas
+for col in range(len(headers)):
+    header_frm.grid_columnconfigure(col, weight=1)
+header_frm.rowconfigure(0, weight=1)
 
-    # Distância vertical entre as linhas
-    ypad = 10
+for col, header in enumerate(headers):
+    header_label = ctk.CTkLabel(header_frm, text=header, font=U.f_titulo, text_color='#FFFFFF')
+    header_label.grid(row=0, column=col, pady=10, padx=5, sticky='nsew')
+    header_label.grid_propagate(False)
 
-    # Esse for é mt confuso 
-    for i, (paciente, dados) in enumerate(dic_pacientes.items()):
-        if i >= 10:  # 10 pacientes por tabela
-            break
+# Lines frames >> Aqui entra as linhas (frames) com cores intercaladas
+line_frame = ctk.CTkFrame(reg_frm, fg_color='transparent', corner_radius=10)
+line_frame.grid(column=0, row=1, sticky='ew')
+line_frame.columnconfigure(0, weight=1)
+line_frame.rowconfigure(0, weight=1)
+line_frame.rowconfigure(9, weight=1)
 
-        # Frame que simula a linha
-        linha_frame = ctk.CTkFrame(frame, fg_color='#DBF0EE' if i % 2 == 0 else '#FAFEFC', corner_radius=10)
-        linha_frame.grid(row=i + 1, column=0, columnspan=len(headers), padx=10, pady=0, sticky='ew')
+def gerar_linhas_vazias(frame, headers, pacientes):
+    for idx, (paciente, dados) in enumerate(list(pacientes.items())[:10]): # Limitei 10 pacientes por página, depois farei uma função para as próximas páginas
+        linha_frame = ctk.CTkFrame(frame, fg_color='#DBF0EE' if idx % 2 == 0 else '#F5F5F5', height=55, corner_radius=10)
+        linha_frame.columnconfigure([0, 1, 2, 3, 4, 5], weight=1)
+        linha_frame.grid_propagate(False)
+        # Dados paciente
+        for idy, valor in enumerate([paciente] + dados): 
+            label = ctk.CTkLabel(linha_frame, text=valor, font=(U.f_simples), text_color='#1C3942')
+            if idy == 2: # Add BPM no label
+                label.configure(text=f'{valor} BPM')
+            else: pass 
+            if idy == 5: # Coluna 6 (status)
+                if dados[-1] == 0: # 0 sendo OK e 1 sendo RISCO
+                    label.configure(text='', image = U.imagemCTK('imagens/check_icon.png', 30, 30))
+                else: label.configure(text='', image = U.imagemCTK('imagens/alert_icon.png', 30, 26))
+            label.grid(column=idy, row=0, sticky='news', ipady=5, padx=5, pady=5)
+            label.grid_propagate(False)
+        linha_frame.grid(row=idx, column=0, sticky='news', pady=0)
 
-        for col in range(len(headers)):
-            linha_frame.columnconfigure(col, weight=1)
-
-        # Nome
-        paciente_label = ctk.CTkLabel(linha_frame, text=paciente, font=U.f_simples, text_color='#1C3942')
-        paciente_label.grid(row=0, column=0, padx=10, pady=ypad, sticky='ew')
-
-        # Temperatura
-        temp_label = ctk.CTkLabel(linha_frame, text=dados[0], font=U.f_simples, text_color='#1C3942')
-        temp_label.grid(row=0, column=1, padx=10, pady=ypad, sticky='ew')
-
-        # BPM
-        bpm_label = ctk.CTkLabel(linha_frame, text=f"{dados[1]} BPM", font=U.f_simples, text_color='#1C3942')
-        bpm_label.grid(row=0, column=2, padx=10, pady=ypad, sticky='ew')
-
-        # Pressão arterial
-        arterial_label = ctk.CTkLabel(linha_frame, text=dados[2], font=U.f_simples, text_color='#1C3942')
-        arterial_label.grid(row=0, column=3, padx=10, pady=ypad, sticky='ew')
-
-        # Saturação
-        saturation_label = ctk.CTkLabel(linha_frame, text=dados[3], font=U.f_simples, text_color='#1C3942')
-        saturation_label.grid(row=0, column=4, padx=10, pady=ypad, sticky='ew')
-
-    for col in range(len(headers)):
-        frame.columnconfigure(col, weight=1)  # Expansão de colunas
-
-inserir_registros_com_grid(reg_frm, dic_teste)
-
-# Agora que vi que esqueci de fazer as linhas separando os valores da tabela (sinto que to esquecendo mais alguma coisa)
-# Tenho que fazer a função de alterar a página da tabela mas vou usar como desculpa que não sei como vamos retirar as info do db então lero lero lero
+gerar_linhas_vazias(line_frame, headers, dic_teste)
 
 janela.mainloop()
