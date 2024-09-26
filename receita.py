@@ -5,6 +5,7 @@ from tkinter import messagebox
 from util import imagemCTK, FontsUI
 from hotbar import Hotbar
 from db_handler import DB
+from search_bar import SearchBar
 
 #-----------------------TELA --------------------------------
 
@@ -71,26 +72,28 @@ class Receita(CTkFrame):
         self.db.exec('select nome_paciente from paciente')
 
         self.lista_pacientes =  [item[0] for item in self.db.f_all()]
-        self.lista_pacientes.insert(0, '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t')
         self.db.close()
 
-        #Dropdown
-        self.optionmenu = ctk.CTkOptionMenu(
-            self.f_holder,
-            fg_color=self.COR,
-            text_color='#ffffff',
-            font=FontsUI.simples,
-            corner_radius=10,
-            dropdown_fg_color=self.COR,
-            dropdown_font=FontsUI.simples,
-            dropdown_hover_color='white',
-            dropdown_text_color='#ffffff',
-            button_color='#2D5E6C',
-            values=self.lista_pacientes,
-            command=optionmenu_callback
-        )
-        self.optionmenu.place(relx=0.5, rely=0.25, anchor='n', relwidth=1)
+        ##Dropdown
+        #self.optionmenu = ctk.CTkOptionMenu(
+        #    self.f_holder,
+        #    fg_color=self.COR,
+        #    text_color='#ffffff',
+        #    font=FontsUI.simples,
+        #    corner_radius=10,
+        #    dropdown_fg_color=self.COR,
+        #    dropdown_font=FontsUI.simples,
+        #    dropdown_hover_color='white',
+        #    dropdown_text_color='#ffffff',
+        #    button_color='#2D5E6C',
+        #    values=self.lista_pacientes,
+        #    command=optionmenu_callback
+        #)
+        #self.optionmenu.place(relx=0.5, rely=0.25, anchor='n', relwidth=1)
         
+        self.search_bar = SearchBar(self.f_holder, width=430, height=40, values=self.lista_pacientes)
+        self.search_bar.place(relx=0.5, rely=0.25, anchor='n', relwidth=1)
+
         #Remedio
         ctk.CTkLabel(
             self.f_holder,
@@ -163,6 +166,8 @@ class Receita(CTkFrame):
                 lambda: print('yoo'), hover_color='#2D5E6C'
         )
         self.b_adicionar.place(relx=0.5, rely=0.7, anchor='n')
+
+        self.search_bar.tkraise()
 
 
 if __name__ == "__main__":
