@@ -18,7 +18,7 @@ class Cadastro():
     div = ctk.CTkFrame(self.root, fg_color='#2D5E6C', width=440, height=2, corner_radius=0)
     div.place(relx=0.5, rely=0.15, anchor="center")
 
-    texto = ctk.CTkImage(Image.open(f"{self.basePath()}/texto.png"), size=(487,80))
+    texto = ctk.CTkImage(Image.open(f"{self.basePath()}/imagens/lar_esperanca.png"), size=(487,80))
     texto_place = ctk.CTkLabel(frame, image=texto, text='')
     texto_place.place(rely=0.25, relx=0.5, anchor="center")
 
@@ -61,7 +61,7 @@ class Cadastro():
     div = ctk.CTkFrame(self.root, fg_color='#2D5E6C', width=440, height=2, corner_radius=0)
     div.place(relx=0.5, rely=0.83, anchor="center")
 
-    curva = ctk.CTkImage(Image.open(f"{self.basePath()}/curva.png"),size=(1618, 185))
+    curva = ctk.CTkImage(Image.open(f"{self.basePath()}/imagens/curva_rodape.png"),size=(1618, 185))
     curva_place = ctk.CTkLabel(frame, image=curva, text='')
     curva_place.place(rely=0.9, relx=0.5, anchor="center")
 
