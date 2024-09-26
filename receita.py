@@ -1,16 +1,17 @@
+from typing import Tuple
 import customtkinter as ctk
 from customtkinter import CTkFrame
 from tkinter import messagebox
-from util import Utils as U
+from util import imagemCTK, FontsUI
 from hotbar import Hotbar
 from db_handler import DB
 
 #-----------------------TELA --------------------------------
 
 class Receita(CTkFrame):
-    BGC = 'white'
+    BGC = '#ffffff'
     COR = '#8ED6D0'
-    TX = 'black'
+    TX = '#000000'
 
     def __init__(self, master: CTkFrame):
         super().__init__(master)
@@ -18,18 +19,42 @@ class Receita(CTkFrame):
         self.configure(fg_color='white', corner_radius=0)
         self.place(relheigh=1, relwidth=1)
 
-        self.f_hotbar = Hotbar(self)
+        self.f_hotbar = Hotbar(self, 'Brabo')
+        #self.f_hotbar.user_forget()
 
         #Frame 
-        self.f_holder = CTkFrame(self, width=440, height=600, fg_color=self.BGC)
+        self.f_holder = CTkFrame(
+            self,
+            width=440,
+            height=600,
+            fg_color=self.BGC
+        )
         self.f_holder.place(relx=0.5, rely=0.5, anchor='center')
 
         #titulo
-        ctk.CTkLabel(self.f_holder, text='Nova Receita', fg_color=self.BGC, font=U.f_titulo, text_color=self.TX).place(relx=0.5, rely=0, anchor='n')
-        ctk.CTkLabel(self.f_holder, text='', image=U.imagemCTK('imagens/linha_torcida.png', 344, 36)).place(relx=0.5, rely=0.1, anchor='n')
+        ctk.CTkLabel(
+            self.f_holder,
+            text='Nova Receita',
+            fg_color=self.BGC,
+            font=FontsUI.titulo,
+            text_color=self.TX
+        ).place(relx=0.5, rely=0, anchor='n')
+
+        ctk.CTkLabel(
+            self.f_holder,
+            text='',
+            image=imagemCTK('imagens/linha_torcida.png', 344, 36)
+        ).place(relx=0.5, rely=0.1, anchor='n')
 
         #Nome paciente
-        ctk.CTkLabel(self.f_holder, text='Nome do paciente', fg_color=self.BGC, font=U.f_simples, text_color=self.TX, anchor='w').place(relx=0.5, rely=0.25, anchor='s', relwidth=1)
+        ctk.CTkLabel(
+            self.f_holder,
+            text='Nome do paciente',
+            fg_color=self.BGC,
+            font=FontsUI.simples,
+            text_color=self.TX,
+            anchor='w'
+        ).place(relx=0.5, rely=0.25, anchor='s', relwidth=1)
 
         def optionmenu_callback(choice):
             print("optionmenu dropdown clicked:", choice)
@@ -46,13 +71,13 @@ class Receita(CTkFrame):
         self.optionmenu = ctk.CTkOptionMenu(
             self.f_holder,
             fg_color=self.COR,
-            text_color=self.TX,
-            font=U.f_simples,
+            text_color='#ffffff',
+            font=FontsUI.simples,
             corner_radius=10,
             dropdown_fg_color=self.COR,
-            dropdown_font=U.f_simples,
+            dropdown_font=FontsUI.simples,
             dropdown_hover_color='white',
-            dropdown_text_color=self.TX,
+            dropdown_text_color='#ffffff',
             button_color='#2D5E6C',
             values=self.lista_pacientes,
             command=optionmenu_callback
@@ -60,27 +85,82 @@ class Receita(CTkFrame):
         self.optionmenu.place(relx=0.5, rely=0.25, anchor='n', relwidth=1)
         
         #Remedio
-        ctk.CTkLabel(self.f_holder, text='Remédio', fg_color=self.BGC, font=U.f_simples, text_color=self.TX, anchor='w').place(relx=0.5, rely=0.4, anchor='s', relwidth=1)
-        self.e_remedio = ctk.CTkEntry(self.f_holder, corner_radius=10, fg_color=self.COR, font=U.f_simples,text_color=self.TX,  border_width=0)
+        ctk.CTkLabel(
+            self.f_holder,
+            text='Remédio',
+            fg_color=self.BGC,
+            font=FontsUI.simples,
+            text_color=self.TX,
+            anchor='w'
+        ).place(relx=0.5, rely=0.4, anchor='s', relwidth=1)
+
+        self.e_remedio = ctk.CTkEntry(
+            self.f_holder,
+            corner_radius=10,
+            fg_color=self.COR,
+            font=FontsUI.simples,
+            text_color='#ffffff',
+            border_width=0
+        )
         self.e_remedio.place(relx=0.5, rely=0.4, anchor='n', relwidth=1)
         
         #Hora inicial
-        ctk.CTkLabel(self.f_holder, text='Horário da Primeira Dose', fg_color=self.BGC, font=('Segoe UI', 20), text_color=self.TX, anchor='w').place(relx=0, rely=0.55, anchor='sw', relwidth=0.54)
-        self.e_hora_inicial = ctk.CTkEntry(self.f_holder, corner_radius=10, fg_color=self.COR, font=U.f_simples,text_color=self.TX,  border_width=0)
+        ctk.CTkLabel(
+            self.f_holder,
+            text='Horário da Primeira Dose',
+            fg_color=self.BGC,
+            font=('Segoe UI', 20),
+            text_color=self.TX,
+            anchor='w'
+        ).place(relx=0, rely=0.55, anchor='sw', relwidth=0.54)
+
+        self.e_hora_inicial = ctk.CTkEntry(
+            self.f_holder,
+            corner_radius=10,
+            fg_color=self.COR,
+            font=FontsUI.simples,
+            text_color='#ffffff',
+            border_width=0
+        )
         self.e_hora_inicial.place(relx=0, rely=0.55, anchor='nw', relwidth=0.54)
 
         #Intervalo
-        ctk.CTkLabel(self.f_holder, text='Intervalo(horas)', fg_color=self.BGC, font=U.f_simples, text_color=self.TX, anchor='w').place(relx=1, rely=0.55, anchor='se', relwidth=0.42)
-        self.e_hora_inicial = ctk.CTkEntry(self.f_holder, corner_radius=10, fg_color=self.COR, font=U.f_simples,text_color=self.TX,  border_width=0)
+        ctk.CTkLabel(
+            self.f_holder,
+            text='Intervalo(horas)',
+            fg_color=self.BGC,
+            font=FontsUI.simples,
+            text_color=self.TX,
+            anchor='w'
+        ).place(relx=1, rely=0.55, anchor='se', relwidth=0.42)
+
+        self.e_hora_inicial = ctk.CTkEntry(
+            self.f_holder,
+            corner_radius=10,
+            fg_color=self.COR,
+            font=FontsUI.simples,
+            text_color='#ffffff',
+            border_width=0
+        )
         self.e_hora_inicial.place(relx=1, rely=0.55, anchor='ne', relwidth=0.42)
 
-        self.b_adicionar = ctk.CTkButton(self.f_holder, text='ADICIONAR', corner_radius=10, fg_color=self.COR, font=U.f_simples,text_color=self.TX,  border_width=0, command=lambda: print('yoo'), hover_color='#2D5E6C')
+        self.b_adicionar = ctk.CTkButton(
+            self.f_holder,
+            text='ADICIONAR',
+            corner_radius=10,
+            fg_color=self.COR,
+            font=FontsUI.simples,
+            text_color='#ffffff',
+            border_width=0,
+            command=
+                lambda: print('yoo'), hover_color='#2D5E6C'
+        )
         self.b_adicionar.place(relx=0.5, rely=0.7, anchor='n')
 
 
 if __name__ == "__main__":
     root = ctk.CTk()
-    root.geometry(f'{root.winfo_screenwidth()}x{root.winfo_screenheight()}')
+    root.geometry(f'{root.winfo_width()}x{root.winfo_height()}')
     root.state('zoomed')
     root.configure(fg_color='white')
     root.title("Nova Receita")
