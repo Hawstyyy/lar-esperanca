@@ -8,12 +8,15 @@ class FontsUI:
     titulo = ('Segoe UI', 40)
     titulo_negrito = ('Segoe UI', 40, 'bold')
     titulo_italico = ('Segoe UI', 40, 'italic')
+    titulo_underline = ('Segoe UI', 40, 'underline')
     subtitulo = ('Segoe UI', 32)
     subtitulo_negrito = ('Segoe UI', 32, 'bold')
     subtitulo_italico = ('Segoe UI', 32, 'italic')
+    subtitulo_underline = ('Segoe UI', 32, 'underline')
     simples = ('Segoe UI', 24)
     simples_negrito = ('Segoe UI', 24, 'bold')
     simples_italico = ('Segoe UI', 24, 'italic')
+    simples_underline = ('Segoe UI', 24, 'underline')
 
 def basePath(file:str = None) -> str:
     """
