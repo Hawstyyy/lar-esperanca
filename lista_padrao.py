@@ -1,5 +1,6 @@
 import customtkinter as ctk
-from util import Utils as U
+from util import FontsUI as f
+from util import imagemCTK as img
 
 janela = ctk.CTk()
 janela.state('zoomed')
@@ -11,7 +12,7 @@ janela.resizable(False, False)
 # Só pra ter noção de espaço
 hotbar_frame = ctk.CTkFrame(janela, width=janela.winfo_width(), height=98, fg_color='#8ED6D0', corner_radius=0)
 hotbar_frame.place(relx=.5, rely=.045, anchor="center")
-back_icon = ctk.CTkLabel(janela, text='', image=U.imagemCTK('imagens/hotbar/back_icon.png', 40, 40))
+back_icon = ctk.CTkLabel(janela, text='', image=img('imagens/hotbar/back_icon.png', 40, 40))
 back_icon.place(relx=.02, rely=.12, anchor='center')
 
 dic_teste = {
@@ -33,7 +34,7 @@ headers = ["Paciente", "Temperatura", "Cardíaca", "Arterial", "Saturação", "S
 search_frm = ctk.CTkFrame(janela, width=200, height=70)
 search_frm.place(relx=.05, rely=0.25)
 
-tt_lbl = ctk.CTkLabel(janela, text='Registros', font=(U.f_titulo), text_color='#1C3942')
+tt_lbl = ctk.CTkLabel(janela, text='Registros', font=(f.titulo_negrito), text_color='#1C3942')
 tt_lbl.place(relx=.5, rely=0.18, anchor='center')
 
 # Frame principal
@@ -55,7 +56,7 @@ for col in range(len(headers)):
 header_frm.rowconfigure(0, weight=1)
 
 for col, header in enumerate(headers):
-    header_label = ctk.CTkLabel(header_frm, text=header, font=U.f_titulo, text_color='#FFFFFF')
+    header_label = ctk.CTkLabel(header_frm, text=header, font=f.titulo_negrito, text_color='#FFFFFF')
     header_label.grid(row=0, column=col, pady=10, padx=5, sticky='nsew')
     header_label.grid_propagate(False)
 
@@ -73,14 +74,14 @@ def gerar_linhas_vazias(frame, headers, pacientes):
         linha_frame.grid_propagate(False)
         # Dados paciente
         for idy, valor in enumerate([paciente] + dados): 
-            label = ctk.CTkLabel(linha_frame, text=valor, font=(U.f_simples), text_color='#1C3942')
+            label = ctk.CTkLabel(linha_frame, text=valor, font=(f.simples), text_color='#1C3942')
             if idy == 2: # Add BPM no label
                 label.configure(text=f'{valor} BPM')
             else: pass 
             if idy == 5: # Coluna 6 (status)
                 if dados[-1] == 0: # 0 sendo OK e 1 sendo RISCO
-                    label.configure(text='', image = U.imagemCTK('imagens/check_icon.png', 30, 30))
-                else: label.configure(text='', image = U.imagemCTK('imagens/alert_icon.png', 30, 26))
+                    label.configure(text='', image = img('imagens/check_icon.png', 30, 30))
+                else: label.configure(text='', image = img('imagens/alert_icon.png', 30, 26))
             label.grid(column=idy, row=0, sticky='news', ipady=5, padx=5, pady=5)
             label.grid_propagate(False)
         linha_frame.grid(row=idx, column=0, sticky='news', pady=0)
