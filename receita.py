@@ -13,14 +13,21 @@ class Receita(CTkFrame):
     COR = '#8ED6D0'
     TX = '#000000'
 
-    def __init__(self, master: CTkFrame):
+    def __init__(self, master: CTkFrame, user:str):
         super().__init__(master)
 
         self.configure(fg_color='white', corner_radius=0)
         self.place(relheigh=1, relwidth=1)
 
-        self.f_hotbar = Hotbar(self, 'Brabo')
-        #self.f_hotbar.user_forget()
+        self.user = user
+
+        #Hotbar
+        self.f_hotbar = Hotbar(self, self.user)
+        self.f_hotbar.place(relx=0.5, rely=0, relwidth=1, anchor='n')
+
+        #Footer
+        self.footer = ctk.CTkLabel(self, height=151, text='', image=imagemCTK('imagens/curva_rodape.png', 1920, 151))
+        self.footer.place(relx=0.5, rely=1, anchor='s')
 
         #Frame 
         self.f_holder = CTkFrame(
@@ -165,5 +172,5 @@ if __name__ == "__main__":
     root.configure(fg_color='white')
     root.title("Nova Receita")
     root.resizable(False, False)
-    frame = Receita(root)
+    frame = Receita(root, 'Brabo')
     root.mainloop()
