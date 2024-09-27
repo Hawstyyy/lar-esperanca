@@ -24,7 +24,7 @@ class Receita(CTkFrame):
 
         #Hotbar
         self.f_hotbar = Hotbar(self, self.user)
-        self.f_hotbar.place(relx=0.5, rely=0, relwidth=1, anchor='n')
+        #self.f_hotbar.place(relx=0.5, rely=0, relwidth=1, anchor='n')
 
         #Footer
         self.footer = ctk.CTkLabel(self, height=151, text='', image=imagemCTK('imagens/curva_rodape.png', 1920, 151))
