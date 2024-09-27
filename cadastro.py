@@ -1,12 +1,14 @@
 import customtkinter as ctk
 from PIL import Image
 import os, sys
+from hotbar import Hotbar
 
 class Cadastro():
   def __init__(self) -> None:
     self.root = ctk.CTk()
     self.root.geometry('1440x900')
     self.root.resizable(False, False)
+    hotbar = Hotbar(self.root)
 
   def basePath(self):
     return os.path.dirname(os.path.abspath(sys.argv[0]))
