@@ -8,7 +8,6 @@ class Cadastro():
     self.root = ctk.CTk()
     self.root.geometry('1440x900')
     self.root.resizable(False, False)
-    hotbar = Hotbar(self.root)
 
   def basePath(self):
     return os.path.dirname(os.path.abspath(sys.argv[0]))
@@ -16,6 +15,7 @@ class Cadastro():
   def cadastro(self):
     frame = ctk.CTkFrame(self.root, fg_color='white', corner_radius=0)
     frame.place(relwidth=1, relheight=1)
+    hotbar = Hotbar(frame)
 
     div = ctk.CTkFrame(self.root, fg_color='#2D5E6C', width=440, height=2, corner_radius=0)
     div.place(relx=0.5, rely=0.15, anchor="center")
