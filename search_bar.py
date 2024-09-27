@@ -30,6 +30,7 @@ class SearchBar(CTkFrame):
             corner_radius=5,
             fg_color=self._COR,
             text_color=self._WT,
+            bg_color=self._WT,
             font=F.simples,
             border_width=0,
             height=40,
@@ -40,6 +41,10 @@ class SearchBar(CTkFrame):
         self._entry.grid(row=0, column=0, sticky='nsew')
 
 ### Métodos da Classe
+    def update_entry_size(self):
+        self.update()
+        self._entry.configure(width=self.winfo_reqwidth())
+
     def set_callback_var(self):
         """Adiciona o callback na variavel presente no entry e salva o nome do callback. É necessário salvar o nome gerado por trace_add quando o callback é adicionado, para remoção  posterior..."""
         self._callback_name = self._entry_var.trace_add('write', self.my_callback)
@@ -71,8 +76,9 @@ class SearchBar(CTkFrame):
             self._list_butoes.append(
                 ctk.CTkButton(self,
                     text=item,
-                    corner_radius=5,
+                    corner_radius=0,
                     fg_color=self._COR,
+                    bg_color=self._WT,
                     font=F.simples,
                     text_color='#ffffff',
                     border_width=0,
