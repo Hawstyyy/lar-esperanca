@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from hotbar import Hotbar
 from PIL import Image
-from util import Utils
+import util
 
 class Intercorrencia:
   def __init__(self) -> None:
@@ -10,7 +10,8 @@ class Intercorrencia:
     self.root.resizable(False, False)
     self.frame = ctk.CTkFrame(self.root, fg_color='white', corner_radius=0)
     self.frame.place(relwidth=1, relheight=1)
-    self.f_hotbar = Hotbar(self.frame)
+    hotbar = Hotbar(self.frame)
+    self.root.title("Lar Esperança")
 
   def set_geometry(self, master, width, height):
     screen_width = self.root.winfo_screenwidth()
@@ -33,7 +34,7 @@ class Intercorrencia:
       return botao
 
   def imagem(self, name, master, x, y, sizeX, sizeY):
-    imagem = ctk.CTkImage(Image.open(f"{Utils().basePath()}/{name}"), size=(sizeX, sizeY))
+    imagem = ctk.CTkImage(Image.open(f"{util.basePath()}/{name}"), size=(sizeX, sizeY))
     imagem_place = ctk.CTkLabel(master, image=imagem, text='')
     imagem_place.place(x=x, y=y)
 
@@ -42,19 +43,19 @@ class Intercorrencia:
     entry.place(x=x,y=y)
   
   def intercorrencia(self):
-    self.texto(self.frame, 'Intercorrência', Utils.f_titulo, 600, 289)
+    self.texto(self.frame, 'Intercorrência', util.FontsUI.titulo, 600, 289)
     self.imagem("imagens/linha_torcida.png", self.frame, 549, 339, 342, 30)
 
-    self.texto(self.frame, 'Descreva as alterações do paciente', Utils.f_simples, 500, 405)
+    self.texto(self.frame, 'Descreva as alterações do paciente', util.FontsUI.simples, 500, 405)
 
-    self.entry(self.frame, 440, 42, '#8ED6D0', 0, 'Black', Utils.f_simples, 500, 441)
+    self.entry(self.frame, 440, 42, '#8ED6D0', 0, 'Black', util.FontsUI.simples, 500, 441)
 
-    self.texto(self.frame, 'Ligue aqui para Emergência →', Utils.f_simples, 445, 509)
-    self.botao(self.frame, 'Ligar', Utils.f_simples, 171, 42, '#8ED6D0', '#2D5E6C', None, 769, 507)
+    self.texto(self.frame, 'Ligue aqui para Emergência →', util.FontsUI.simples, 445, 509)
+    self.botao(self.frame, 'Ligar', util.FontsUI.simples, 171, 42, '#8ED6D0', '#2D5E6C', None, 769, 507)
 
-    self.botao(self.frame, 'Adicionar', Utils.f_simples, 162, 53, '#19AAA5', 'White', None, 639, 608)
+    self.botao(self.frame, 'Adicionar', util.FontsUI.simples, 162, 53, '#19AAA5', 'White', None, 639, 608)
 
-    self.imagem("/curva.png", self.frame, 0, 750, 1618, 185)
+    self.imagem(f"{'/imagens/curva_rodape.png'}", self.frame, 0, 750, 1618, 185)
     self.root.mainloop()
 
 if __name__ == '__main__':

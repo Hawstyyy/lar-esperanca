@@ -1,7 +1,9 @@
 #Ana :D
 
 import customtkinter as ctk
-from util import Utils as U
+# from util import Utils as U
+from util import FontsUI as U
+from util import imagemCTK
 from PIL import Image
 import pywinstyles
 
@@ -20,14 +22,14 @@ size=(920, 920)
 )
 
 curva = ctk.CTkImage(
-light_image=Image.open("curva.png"),
-dark_image=Image.open("curva.png"),
+light_image=Image.open("imagens/curva_rodape.png"),
+dark_image=Image.open("imagens/curva_rodape.png"),
 size=(2000, 200)
 )
 
 linha = ctk.CTkImage(
-light_image=Image.open("texto.png"),
-dark_image=Image.open("texto.png"),
+light_image=Image.open("imagens/lar_esperanca.png"),
+dark_image=Image.open("imagens/lar_esperanca.png"),
 size=(450, 80)
 )
 
@@ -78,10 +80,11 @@ def textos(texto, fonte, estilo, cor_texto, fundo_texto, posicaox, posicaoy):
         fg_color=fundo_texto
     ).place(relx=posicaox, rely=posicaoy, anchor="center")
 
-textos("Entrar", U.f_simples, "normal", "#97BCAA", "transparent", 0.74, 0.35)
-textos("Bem Vindo de Volta!", U.f_simples, "underline", "#2D5E6C", "transparent", 0.74, 0.39)
-textos("Usuário:", U.f_simples, "normal", "#2D5E6C", "transparent", 0.665, 0.46)
-textos("Senha:", U.f_simples, "normal", "#2D5E6C", "transparent", 0.663, 0.545)
+textos("Entrar", U.simples, "normal", "#97BCAA", "transparent", 0.74, 0.35)
+textos("Bem Vindo de Volta!", U.simples, "underline", "#2D5E6C", "transparent", 0.74, 0.398)
+textos("Usuário:", U.simples, "normal", "#2D5E6C", "transparent", 0.665, 0.46)
+textos("Senha:", U.simples, "normal", "#2D5E6C", "transparent", 0.663, 0.545)
+
 
 user_entry = ctk.CTkEntry(
     janela, 
@@ -89,7 +92,8 @@ user_entry = ctk.CTkEntry(
     height= 40,
     border_color = "#8ED6D0",
     fg_color = "#8ED6D0",
-    bg_color='#FAFEFC'
+    bg_color='#FAFEFC',
+    text_color= "black"
 )
 user_entry.place(relx= 0.74, rely= 0.5, anchor="center")
 
@@ -100,15 +104,43 @@ senha_entry = ctk.CTkEntry(
     border_color = "#8ED6D0",
     fg_color = "#8ED6D0",
     bg_color='#FAFEFC',
+    text_color= "black",
     show = "*"
 )
 senha_entry.place(relx= 0.74, rely= 0.585, anchor="center")
 
+logar = ctk.CTkButton(
+    janela,
+    text="Logar",
+    font=(U.simples),
+    width=120, 
+    height=50,
+    text_color="White",
+    fg_color="#19AAA5",
+    hover_color="#3bd9d3",
+    bg_color = '#FAFEFC'
+)
+logar.place(relx=0.74, rely=0.66, anchor="center")
+
+clique_aqui = ctk.CTkButton(
+    janela,
+    text= "Clique aqui!",
+    font=(U.simples_underline),
+    width=50, 
+    height=30,
+    text_color="#97BCAA",
+    fg_color="#FAFEFC",
+    hover_color="#FAFEFC",
+    bg_color = '#FAFEFC'
+)
+clique_aqui.place(relx=0.74, rely=0.75, anchor="center")
+textos("Não tem cadastro?", U.simples, "normal", "#97BCAA", "transparent", 0.74, 0.72)
+
 # Só pra ter noção de espaço -----------------------------------------
 hotbar_frame = ctk.CTkFrame(janela, width=janela.winfo_width(), height=98, fg_color='#8ED6D0', corner_radius=0)
 hotbar_frame.place(relx=.5, rely=.045, anchor="center")
-back_icon = ctk.CTkLabel(janela, text='', image=U.imagemCTK('imagens/hotbar/back_icon.png', 40, 40))
-back_icon.place(relx=.02, rely=.12, anchor='center')
+# back_icon = ctk.CTkLabel(janela, text='', image=imagemCTK('imagens/hotbar/back_icon.png', 40, 40))
+# back_icon.place(relx=.02, rely=.12, anchor='center')
 
 janela.mainloop()
 
