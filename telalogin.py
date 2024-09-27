@@ -92,7 +92,8 @@ user_entry = ctk.CTkEntry(
     height= 40,
     border_color = "#8ED6D0",
     fg_color = "#8ED6D0",
-    bg_color='#FAFEFC'
+    bg_color='#FAFEFC',
+    text_color= "black"
 )
 user_entry.place(relx= 0.74, rely= 0.5, anchor="center")
 
@@ -103,6 +104,7 @@ senha_entry = ctk.CTkEntry(
     border_color = "#8ED6D0",
     fg_color = "#8ED6D0",
     bg_color='#FAFEFC',
+    text_color= "black",
     show = "*"
 )
 senha_entry.place(relx= 0.74, rely= 0.585, anchor="center")

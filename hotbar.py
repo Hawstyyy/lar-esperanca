@@ -28,6 +28,11 @@ class Hotbar(ctk.CTkFrame):
         self.place(rely=0, relx=0.5, anchor="n", relwidth=1)
         #self.l_exit.unbind("<Button-1>") #não sei se ao alterar de páginas vai acumular funções bind, então melhor prevenir
 
+        #Button Exit
+        self.b_exit = ctk.CTkButton(self, text='', width=34, height=34, fg_color='transparent', hover_color='#8ED6D0',image=imagemCTK('imagens/hotbar/loggout.png', 34, 34), command=lambda: print('opppps'))
+        self.b_exit.place(relx=.87, rely=.5, anchor='center')
+
+
     def user_forget(self):
         self.l_icon.place_forget()
         self.l_username.place_forget()
@@ -49,9 +54,9 @@ if __name__ == '__main__':
     logo_label = ctk.CTkLabel(hotbar_frame, text='', image=imagemCTK('imagens/logo.png', 98, 98))
     logo_label.place(relx=.5, rely=.5, anchor='center')
 
-    exit_label = ctk.CTkLabel(hotbar_frame, text='', cursor='plus',image=imagemCTK('imagens/hotbar/loggout.png', 34, 34))
-    exit_label.place(relx=.87, rely=.5, anchor='center')
-    exit_label.bind("<Button-1>", lambda event: print('>Aqui chama a tela de login<')) #Alterar para o comando correto
+    b_exit = ctk.CTkButton(hotbar_frame, text='', width=34, height=34, fg_color='transparent', hover_color='#8ED6D0',image=imagemCTK('imagens/hotbar/loggout.png', 34, 34), command=lambda: print('opppps'))
+    b_exit.place(relx=.87, rely=.5, anchor='center')
+
 
     user_icon = ctk.CTkLabel(hotbar_frame, text='', image=imagemCTK('imagens/hotbar/user_icon.png', 29, 34))
     user_icon.place(relx=.145, rely=.5, anchor='e')
