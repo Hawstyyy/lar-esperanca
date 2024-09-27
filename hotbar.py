@@ -25,7 +25,7 @@ class Hotbar(ctk.CTkFrame):
         self.l_exit.bind("<Button-1>", lambda event: print('>Aqui chama a tela de login<')) #Alterar para o comando correto
 
         #saindo da criação
-
+        self.place(rely=0, relx=0.5, anchor="n", relwidth=1)
         #self.l_exit.unbind("<Button-1>") #não sei se ao alterar de páginas vai acumular funções bind, então melhor prevenir
 
     def user_forget(self):
