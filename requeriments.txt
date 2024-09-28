@@ -3,3 +3,4 @@ darkdetect==0.8.0
 packaging==24.1
 pillow==10.4.0
 PyMySQL==1.1.1
+pywinstyles==1.8
