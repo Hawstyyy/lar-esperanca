@@ -1,4 +1,5 @@
-from telalogin import TelaLogin
+#from telalogin import TelaLogin
+from cadastro import cadastro
 from hotbar import Hotbar
 import customtkinter as ctk
 
@@ -11,7 +12,8 @@ if __name__ == '__main__':
     root.resizable(False, False)
 
 
-    login = TelaLogin(root)
-    hotbar = Hotbar(login, 'Jão')
+    tela = cadastro(root)
+    hotbar = Hotbar(tela)
+    #hotbar.user_forget()
 
     root.mainloop()
