@@ -124,11 +124,13 @@ class SearchBar(CTkFrame):
         self.configure(height=40)
 
     def get_data(self, primary: str, table: str, column: str):
-        query = f"select {primary},{column} from {table} where {column} like %(entry)s"
+        query = f"select {primary},{column} from {table} where {column} like %s"
 
         db = DB()
         #Pega as primeiras 10 linhas caso existam, que começam com o valor digitado
-        db.exec(query, {'entry':self._entry_var.get() + '%'})
+        like_value = f'{self._entry_var.get()}%'
+        db.exec(query, (like_value,))
+        print(like_value)
 
         #Remove anteriores
         self._values.clear()
@@ -136,17 +138,23 @@ class SearchBar(CTkFrame):
         for linha in db.f_many(10):
             self._values[linha[0]] = linha[1]
         print(self._values)
-
+        db.close()
         len_dic = len(self._values)
+        print(f'len:{len_dic}')
         #Adiciona elementos com nome parecido até no maximo 10 elementos
         if(len_dic < 10 and len_dic != 0):
-            db.exec(query, {'entry':f'%{self._entry_var.get()}%'})
+            print('second')
+            db = DB()
+            like_value = f'%{self._entry_var.get()}%'
+            db.exec(query, (like_value,))
+            print(like_value)
 
-            for linha in db.f_many(len_dic):
-                print(f'linha: {linha}')
-                self._values[linha[0]] = linha[1]
+            for row in db.f_many(len_dic):
+                print(f'linha: {row}')
+                self._values[row[0]] = row[1]
+
+            db.close()
         print(self._values)
-        db.close()
 
 if __name__ == "__main__":
     root = ctk.CTk()

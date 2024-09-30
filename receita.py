@@ -64,20 +64,9 @@ class Receita(CTkFrame):
             anchor='w'
         ).place(relx=0.5, rely=0.25, anchor='s', relwidth=1)
 
-        def optionmenu_callback(choice):
-            print("optionmenu dropdown clicked:", choice)
-
-        #Pegando lista de Pacientes do banco
-        self.db = DB()
-        self.db.exec('select nome_paciente from paciente')
-
-        self.lista_pacientes =  [item[0] for item in self.db.f_all()]
-        self.db.close()
-
         #Search Bar
-        self.search_bar = SearchBar(self.f_holder, height=40, values=self.lista_pacientes, bg_color='white')
+        self.search_bar = SearchBar(self.f_holder, primary='id_paciente', column='nome_paciente', table='paciente', height=40, bg_color='white')
         self.search_bar.place(relx=0.5, rely=0.25, anchor='n', relwidth=1)
-        self.search_bar.update()
 
         #Remedio
         ctk.CTkLabel(
