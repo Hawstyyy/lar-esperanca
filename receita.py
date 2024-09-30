@@ -64,11 +64,11 @@ class Receita(CTkFrame):
             anchor='w'
         ).place(relx=0.5, rely=0.25, anchor='s', relwidth=1)
 
-        #Search Bar
-        self.search_bar = SearchBar(self.f_holder, primary='id_paciente', column='nome_paciente', table='paciente', height=40, bg_color='white')
-        self.search_bar.place(relx=0.5, rely=0.25, anchor='n', relwidth=1)
+        #Search Nome Paciente
+        self.search_paciente = SearchBar(self.f_holder, primary='id_paciente', column='nome_paciente', table='paciente', height=40, bg_color='white')
+        self.search_paciente.place(relx=0.5, rely=0.25, anchor='n', relwidth=1)
 
-        #Remedio
+        #Remédio
         ctk.CTkLabel(
             self.f_holder,
             text='Remédio',
@@ -78,15 +78,19 @@ class Receita(CTkFrame):
             anchor='w'
         ).place(relx=0.5, rely=0.4, anchor='s', relwidth=1)
 
-        self.e_remedio = ctk.CTkEntry(
-            self.f_holder,
-            corner_radius=5,
-            fg_color=self.COR,
-            font=FontsUI.simples,
-            text_color='#ffffff',
-            border_width=0
-        )
-        self.e_remedio.place(relx=0.5, rely=0.4, anchor='n', relwidth=1)
+        #Search Nome Remédio
+        self.search_remedio = SearchBar(self.f_holder, primary='id_remedio', column='nome_remedio', table='remedio', height=40, bg_color='white')
+        self.search_remedio.place(relx=0.5, rely=0.4, anchor='n', relwidth=1)
+
+        #self.e_remedio = ctk.CTkEntry(
+        #    self.f_holder,
+        #    corner_radius=5,
+        #    fg_color=self.COR,
+        #    font=FontsUI.simples,
+        #    text_color='#ffffff',
+        #    border_width=0
+        #)
+        #self.e_remedio.place(relx=0.5, rely=0.4, anchor='n', relwidth=1)
         
         #Hora inicial
         ctk.CTkLabel(
@@ -141,7 +145,8 @@ class Receita(CTkFrame):
         )
         self.b_adicionar.place(relx=0.5, rely=0.7, anchor='n')
 
-        self.search_bar.tkraise()
+        #self.search_remedio.tkraise()
+        #self.search_paciente.tkraise()
 
 
 if __name__ == "__main__":
