@@ -74,27 +74,10 @@ class Receita(CTkFrame):
         self.lista_pacientes =  [item[0] for item in self.db.f_all()]
         self.db.close()
 
-        ##Dropdown
-        #self.optionmenu = ctk.CTkOptionMenu(
-        #    self.f_holder,
-        #    fg_color=self.COR,
-        #    text_color='#ffffff',
-        #    font=FontsUI.simples,
-        #    corner_radius=10,
-        #    dropdown_fg_color=self.COR,
-        #    dropdown_font=FontsUI.simples,
-        #    dropdown_hover_color='white',
-        #    dropdown_text_color='#ffffff',
-        #    button_color='#2D5E6C',
-        #    values=self.lista_pacientes,
-        #    command=optionmenu_callback
-        #)
-        #self.optionmenu.place(relx=0.5, rely=0.25, anchor='n', relwidth=1)
-        
+        #Search Bar
         self.search_bar = SearchBar(self.f_holder, height=40, values=self.lista_pacientes, bg_color='white')
         self.search_bar.place(relx=0.5, rely=0.25, anchor='n', relwidth=1)
-        self.update()
-        self.search_bar.update_entry_size()
+        self.search_bar.update()
 
         #Remedio
         ctk.CTkLabel(
@@ -108,7 +91,7 @@ class Receita(CTkFrame):
 
         self.e_remedio = ctk.CTkEntry(
             self.f_holder,
-            corner_radius=10,
+            corner_radius=5,
             fg_color=self.COR,
             font=FontsUI.simples,
             text_color='#ffffff',
@@ -128,7 +111,7 @@ class Receita(CTkFrame):
 
         self.e_hora_inicial = ctk.CTkEntry(
             self.f_holder,
-            corner_radius=10,
+            corner_radius=5,
             fg_color=self.COR,
             font=FontsUI.simples,
             text_color='#ffffff',
@@ -148,7 +131,7 @@ class Receita(CTkFrame):
 
         self.e_hora_inicial = ctk.CTkEntry(
             self.f_holder,
-            corner_radius=10,
+            corner_radius=5,
             fg_color=self.COR,
             font=FontsUI.simples,
             text_color='#ffffff',
@@ -159,7 +142,7 @@ class Receita(CTkFrame):
         self.b_adicionar = ctk.CTkButton(
             self.f_holder,
             text='ADICIONAR',
-            corner_radius=10,
+            corner_radius=5,
             fg_color=self.COR,
             font=FontsUI.simples,
             text_color='#ffffff',

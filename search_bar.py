@@ -6,23 +6,27 @@ from db_handler import DB
 
 class SearchBar(CTkFrame):
     """Uma SearchBar que permite selecionar um valor da lista. Selecionar um valor aplica o valor ao Entry e remover a lista da tela"""
-    def __init__(self, master: CTkFrame, width: int = 200, height: int = 200, corner_radius: int | str | None = None, border_width: int | str | None = None, bg_color: str | Tuple[str, str] = "transparent", fg_color: str | Tuple[str, str] | None = None, border_color: str | Tuple[str, str] | None = None, background_corner_colors: Tuple[str | Tuple[str, str]] | None = None, overwrite_preferred_drawing_method: str | None = None, values:list[str] = None, **kwargs):
+    def __init__(self, master: CTkFrame, primary: str, table: str, column: str, width: int = 200, height: int = 200, corner_radius: int | str | None = None, border_width: int | str | None = None, bg_color: str | Tuple[str, str] = "transparent", fg_color: str | Tuple[str, str] | None = None, border_color: str | Tuple[str, str] | None = None, background_corner_colors: Tuple[str | Tuple[str, str]] | None = None, overwrite_preferred_drawing_method: str | None = None, **kwargs):
         super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs)
 
         self._WT = '#ffffff'
         self._BT = '#000000'
         self._COR = '#8ED6D0'
-        self._values = values[:]
+        self._values = {}
+        self._primary = primary
+        self._table = table
+        self._column = column
         self._hover = '#BBF4F0'
-
-        #Faz frame respeitar o tamanho dado no input
-        self.grid_propagate(False)
-        self.update()
+        self._selected_id = None
 
         #Variaveis do entry
         self._entry_var = ctk.StringVar()
         self._entry_set_state = False
         self.set_callback_var()
+
+        # Configure grid to make the entry expand
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=1)
 
         #Criação do entry incial
         self._entry = ctk.CTkEntry(
@@ -37,23 +41,24 @@ class SearchBar(CTkFrame):
             width=self.winfo_reqwidth(),
             textvariable=self._entry_var
         )
-        self._entry.grid_propagate(False)
+
+        #Configuração para permitir entry propagar para o tamanho do frame
         self._entry.grid(row=0, column=0, sticky='nsew')
 
-### Métodos da Classe
-    def update_entry_size(self):
-        self.update()
-        self._entry.configure(width=self.winfo_reqwidth())
+        #Faz frame respeitar o tamanho dado no input
+        self.grid_propagate(False)
 
+### Métodos da Classe
     def set_callback_var(self):
         """Adiciona o callback na variavel presente no entry e salva o nome do callback. É necessário salvar o nome gerado por trace_add quando o callback é adicionado, para remoção  posterior..."""
-        self._callback_name = self._entry_var.trace_add('write', self.my_callback)
+        self._callback_name = self._entry_var.trace_add('write', self.entry_callback)
 
-    def set_entry_text(self, value:str):
+    def set_entry_text(self, id: str):
         """Adiciona o texto selecionado no entry e remove a lista de opções. Lida com a interação com o trace para evitar erros"""
         self._entry_var.trace_remove('write', self._callback_name)
         self._entry_set_state = True
-        self._entry_var.set(value)
+        self._entry_var.set(self._values[id])
+        self._selected_id = id
         self.destroy_list()
         self.set_callback_var()
         self.focus()
@@ -64,6 +69,9 @@ class SearchBar(CTkFrame):
         if(hasattr(self, '_list_butoes')):
             self.destroy_list()
 
+        #Pega os valores do banco
+        self.get_data(self._primary, self._table, self._column)
+
         #Configuração do grid
         self.configure(height=40*(len(self._values) + 1))
         self.columnconfigure(0,weight=1)
@@ -72,10 +80,12 @@ class SearchBar(CTkFrame):
 
         self._list_butoes:list[ctk.CTkButton] = []
 
-        for idx, item in enumerate(self._values):
+        for idx, id in enumerate(self._values):
+
             self._list_butoes.append(
+
                 ctk.CTkButton(self,
-                    text=item,
+                    text=self._values[id],
                     corner_radius=0,
                     fg_color=self._COR,
                     bg_color=self._WT,
@@ -85,20 +95,27 @@ class SearchBar(CTkFrame):
                     height=40,
                     anchor='w',
                     command=
-                        lambda item = item: self.set_entry_text(item),
+                        lambda item = id: self.set_entry_text(item),
                     hover_color=self._hover
                 )
             )
+
             self._list_butoes[idx].grid_propagate(False)
             self._list_butoes[idx].grid(row=idx + 1, column=0, sticky='nsew')
 
-    def my_callback(self, var, index, mode):
+    def entry_callback(self, var, index, mode):
         """Callback do entry que cria os botões quando algo é digitado"""
         if(self._entry_set_state):
             self._entry_var.set('')
             self._entry_set_state = False
             self._entry.delete(0, 'end')
-        self.create_list_buttons()
+
+        # Cancela o after caso exista, pois um novo digito foi inserido no entry
+        if hasattr(self, '_after_id'):
+            self.after_cancel(self._after_id)
+
+        #Agenda um novo after para execução após de 500ms
+        self._after_id = self.after(500, self.create_list_buttons)
 
     def destroy_list(self):
         """Remove a lista de botões"""
@@ -106,9 +123,30 @@ class SearchBar(CTkFrame):
             item.destroy()
         self.configure(height=40)
 
-    def change_list(self, new: list[str]):
-        """Altera a lista de opções"""
-        self._values = new[:]
+    def get_data(self, primary: str, table: str, column: str):
+        query = f"select {primary},{column} from {table} where {column} like %(entry)s"
+
+        db = DB()
+        #Pega as primeiras 10 linhas caso existam, que começam com o valor digitado
+        db.exec(query, {'entry':self._entry_var.get() + '%'})
+
+        #Remove anteriores
+        self._values.clear()
+
+        for linha in db.f_many(10):
+            self._values[linha[0]] = linha[1]
+        print(self._values)
+
+        len_dic = len(self._values)
+        #Adiciona elementos com nome parecido até no maximo 10 elementos
+        if(len_dic < 10 and len_dic != 0):
+            db.exec(query, {'entry':f'%{self._entry_var.get()}%'})
+
+            for linha in db.f_many(len_dic):
+                print(f'linha: {linha}')
+                self._values[linha[0]] = linha[1]
+        print(self._values)
+        db.close()
 
 if __name__ == "__main__":
     root = ctk.CTk()
@@ -118,10 +156,6 @@ if __name__ == "__main__":
     root.title("Nova Receita")
     root.resizable(False, False)
 
-    db = DB()
-    db.exec('select nome_paciente from paciente')
-    funcionarios = [nome[0] for nome in db.f_many(10)]
-
-    frame = SearchBar(root, width=300, height=40, values=funcionarios)
+    frame = SearchBar(root, width=300, height=40, primary='id_paciente', table='paciente', column='nome_paciente')
     frame.place(relx=0.5,rely=0.5, anchor='n')
     root.mainloop()
