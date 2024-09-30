@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from PIL import Image
 import os, sys
+from hotbar import Hotbar
 
 class Cadastro():
   def __init__(self) -> None:
@@ -14,6 +15,7 @@ class Cadastro():
   def cadastro(self):
     frame = ctk.CTkFrame(self.root, fg_color='white', corner_radius=0)
     frame.place(relwidth=1, relheight=1)
+    hotbar = Hotbar(frame)
 
     div = ctk.CTkFrame(self.root, fg_color='#2D5E6C', width=440, height=2, corner_radius=0)
     div.place(relx=0.5, rely=0.15, anchor="center")
