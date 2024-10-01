@@ -6,8 +6,8 @@ import util
 class Intercorrencia:
   def __init__(self) -> None:
     self.root = ctk.CTk()
-    self.set_geometry(self.root ,1440 ,900)
-    self.root.resizable(False, False)
+    self.root.after(0, lambda:self.root.state('zoomed'))
+    # self.root.resizable(False, False)
     self.frame = ctk.CTkFrame(self.root, fg_color='white', corner_radius=0)
     self.frame.place(relwidth=1, relheight=1)
     hotbar = Hotbar(self.frame)
@@ -43,19 +43,19 @@ class Intercorrencia:
     entry.place(x=x,y=y)
   
   def intercorrencia(self):
-    self.texto(self.frame, 'Intercorrência', util.FontsUI.titulo, 600, 289)
-    self.imagem("imagens/linha_torcida.png", self.frame, 549, 339, 342, 30)
+    self.texto(self.frame, 'Intercorrência', util.FontsUI.titulo, 845, 273)
+    self.imagem("imagens/linha_torcida.png", self.frame, 792, 325, 342, 30)
 
-    self.texto(self.frame, 'Descreva as alterações do paciente', util.FontsUI.simples, 500, 405)
+    self.texto(self.frame, 'Descreva as alterações do paciente', util.FontsUI.simples, 740, 405)
 
-    self.entry(self.frame, 440, 42, '#8ED6D0', 0, 'Black', util.FontsUI.simples, 500, 441)
+    self.entry(self.frame, 440, 42, '#8ED6D0', 0, 'Black', util.FontsUI.simples, 740, 441)
 
-    self.texto(self.frame, 'Ligue aqui para Emergência →', util.FontsUI.simples, 445, 509)
-    self.botao(self.frame, 'Ligar', util.FontsUI.simples, 171, 42, '#8ED6D0', '#2D5E6C', None, 769, 507)
+    self.texto(self.frame, 'Ligue aqui para Emergência →', util.FontsUI.simples, 685, 514)
+    self.botao(self.frame, 'Ligar', util.FontsUI.simples, 171, 42, '#8ED6D0', '#2D5E6C', None, 1009, 507)
 
-    self.botao(self.frame, 'Adicionar', util.FontsUI.simples, 162, 53, '#19AAA5', 'White', None, 639, 608)
+    self.botao(self.frame, 'Adicionar', util.FontsUI.simples, 162, 53, '#19AAA5', 'White', None, 879, 608)
 
-    self.imagem(f"{'/imagens/curva_rodape.png'}", self.frame, 0, 750, 1618, 185)
+    self.imagem(f"{'/imagens/curva_rodape.png'}", self.frame, 0, 850, 2158, 210)
     self.root.mainloop()
 
 if __name__ == '__main__':
