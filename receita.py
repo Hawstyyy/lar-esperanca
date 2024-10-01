@@ -6,6 +6,7 @@ from util import imagemCTK, FontsUI
 from hotbar import Hotbar
 from db_handler import DB
 from search_bar import SearchBar
+from datetime import date, datetime, time, timedelta
 
 #-----------------------TELA --------------------------------
 
@@ -82,16 +83,6 @@ class Receita(CTkFrame):
         self.search_remedio = SearchBar(self.f_holder, primary='id_remedio', column='nome_remedio', table='remedio', height=40, bg_color='white')
         self.search_remedio.place(relx=0.5, rely=0.4, anchor='n', relwidth=1)
 
-        #self.e_remedio = ctk.CTkEntry(
-        #    self.f_holder,
-        #    corner_radius=5,
-        #    fg_color=self.COR,
-        #    font=FontsUI.simples,
-        #    text_color='#ffffff',
-        #    border_width=0
-        #)
-        #self.e_remedio.place(relx=0.5, rely=0.4, anchor='n', relwidth=1)
-        
         #Hora inicial
         ctk.CTkLabel(
             self.f_holder,
@@ -153,4 +144,10 @@ if __name__ == "__main__":
     root.title("Nova Receita")
     root.resizable(False, False)
     frame = Receita(root, 'Brabo')
+
+
+    dt = datetime.combine(date.today(), time(13, 20)) + timedelta(minutes=10)
+    print (dt.time())
+
     root.mainloop()
+    
