@@ -18,7 +18,7 @@ class Cadastro2:
   def cadastro2(self):
     div = ctk.CTkFrame(self.root, fg_color='#2D5E6C', width=440, height=2, corner_radius=0)
     div.place(x=500, y=143)
-
+    
     Intercorrencia().imagem("imagens/lar_esperanca.png", self.frame, 481, 200, 477, 82)
 
     Intercorrencia().texto(self.frame, "Usuário", util.FontsUI.simples_negrito, 502, 378)

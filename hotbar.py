@@ -26,11 +26,16 @@ class Hotbar(ctk.CTkFrame):
         self.b_exit = ctk.CTkButton(self, text='', width=34, height=34, fg_color='transparent', hover_color='#8ED6D0',image=imagemCTK('imagens/hotbar/loggout.png', 34, 34), command=lambda: print('opppps'))
         self.b_exit.place(relx=.87, rely=.5, anchor='center')
 
+    def user_add(self, name: str):
+        self.config_name(name)
+        self.l_icon.place(relx=.145, rely=.5, anchor='e')
+        self.l_username.place(relx=.15, rely=.5, anchor='w')
+        self.b_exit.place(relx=.87, rely=.5, anchor='center')
 
     def user_forget(self):
         self.l_icon.place_forget()
         self.l_username.place_forget()
-        self.l_exit.place_forget()
+        self.b_exit.place_forget()
 
     def config_name(self, username:str):
         self.l_username.configure(text=username)
