@@ -5,6 +5,7 @@ from tkinter import messagebox
 from util import imagemCTK, FontsUI
 from hotbar import Hotbar
 from db_handler import DB
+from search_bar import SearchBar
 
 #-----------------------TELA --------------------------------
 
@@ -23,7 +24,7 @@ class Receita(CTkFrame):
 
         #Hotbar
         self.f_hotbar = Hotbar(self, self.user)
-        self.f_hotbar.place(relx=0.5, rely=0, relwidth=1, anchor='n')
+        #self.f_hotbar.place(relx=0.5, rely=0, relwidth=1, anchor='n')
 
         #Footer
         self.footer = ctk.CTkLabel(self, height=151, text='', image=imagemCTK('imagens/curva_rodape.png', 1920, 151))
@@ -63,35 +64,11 @@ class Receita(CTkFrame):
             anchor='w'
         ).place(relx=0.5, rely=0.25, anchor='s', relwidth=1)
 
-        def optionmenu_callback(choice):
-            print("optionmenu dropdown clicked:", choice)
+        #Search Nome Paciente
+        self.search_paciente = SearchBar(self.f_holder, primary='id_paciente', column='nome_paciente', table='paciente', height=40, bg_color='white')
+        self.search_paciente.place(relx=0.5, rely=0.25, anchor='n', relwidth=1)
 
-        #Pegando lista de Pacientes do banco
-        self.db = DB()
-        self.db.exec('select nome_paciente from paciente')
-
-        self.lista_pacientes =  [item[0] for item in self.db.f_all()]
-        self.lista_pacientes.insert(0, '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t')
-        self.db.close()
-
-        #Dropdown
-        self.optionmenu = ctk.CTkOptionMenu(
-            self.f_holder,
-            fg_color=self.COR,
-            text_color='#ffffff',
-            font=FontsUI.simples,
-            corner_radius=10,
-            dropdown_fg_color=self.COR,
-            dropdown_font=FontsUI.simples,
-            dropdown_hover_color='white',
-            dropdown_text_color='#ffffff',
-            button_color='#2D5E6C',
-            values=self.lista_pacientes,
-            command=optionmenu_callback
-        )
-        self.optionmenu.place(relx=0.5, rely=0.25, anchor='n', relwidth=1)
-        
-        #Remedio
+        #Remédio
         ctk.CTkLabel(
             self.f_holder,
             text='Remédio',
@@ -101,15 +78,19 @@ class Receita(CTkFrame):
             anchor='w'
         ).place(relx=0.5, rely=0.4, anchor='s', relwidth=1)
 
-        self.e_remedio = ctk.CTkEntry(
-            self.f_holder,
-            corner_radius=10,
-            fg_color=self.COR,
-            font=FontsUI.simples,
-            text_color='#ffffff',
-            border_width=0
-        )
-        self.e_remedio.place(relx=0.5, rely=0.4, anchor='n', relwidth=1)
+        #Search Nome Remédio
+        self.search_remedio = SearchBar(self.f_holder, primary='id_remedio', column='nome_remedio', table='remedio', height=40, bg_color='white')
+        self.search_remedio.place(relx=0.5, rely=0.4, anchor='n', relwidth=1)
+
+        #self.e_remedio = ctk.CTkEntry(
+        #    self.f_holder,
+        #    corner_radius=5,
+        #    fg_color=self.COR,
+        #    font=FontsUI.simples,
+        #    text_color='#ffffff',
+        #    border_width=0
+        #)
+        #self.e_remedio.place(relx=0.5, rely=0.4, anchor='n', relwidth=1)
         
         #Hora inicial
         ctk.CTkLabel(
@@ -123,7 +104,7 @@ class Receita(CTkFrame):
 
         self.e_hora_inicial = ctk.CTkEntry(
             self.f_holder,
-            corner_radius=10,
+            corner_radius=5,
             fg_color=self.COR,
             font=FontsUI.simples,
             text_color='#ffffff',
@@ -143,7 +124,7 @@ class Receita(CTkFrame):
 
         self.e_hora_inicial = ctk.CTkEntry(
             self.f_holder,
-            corner_radius=10,
+            corner_radius=5,
             fg_color=self.COR,
             font=FontsUI.simples,
             text_color='#ffffff',
@@ -154,7 +135,7 @@ class Receita(CTkFrame):
         self.b_adicionar = ctk.CTkButton(
             self.f_holder,
             text='ADICIONAR',
-            corner_radius=10,
+            corner_radius=5,
             fg_color=self.COR,
             font=FontsUI.simples,
             text_color='#ffffff',
@@ -163,7 +144,6 @@ class Receita(CTkFrame):
                 lambda: print('yoo'), hover_color='#2D5E6C'
         )
         self.b_adicionar.place(relx=0.5, rely=0.7, anchor='n')
-
 
 if __name__ == "__main__":
     root = ctk.CTk()
