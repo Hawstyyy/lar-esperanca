@@ -5,35 +5,20 @@ from util import imagem, texto, frame, imagemCTK
 from util import FontsUI as U
 from PIL import Image
 import pywinstyles
+import db_handler as db
 
-if __name__ == '__main__':
-    janela = ctk.CTk()
-    janela.state('zoomed')
-    janela.geometry(f'{janela.winfo_width()}x{janela.winfo_height()}')
-    janela.configure(fg_color='#FAFEFC')
-    janela.title("Lista")
-    janela.resizable(False, False)
+# db = db()
 
-    # IMAGENS ----------------------------------------------
-    fotologin = ctk.CTkImage(
-    light_image=Image.open("imagens/logintransp.png"),
-    dark_image=Image.open("imagens/logintransp.png"),
-    size=(920, 920)
-    )
+# FUNÇÕES ------------------------------------------------------
+def tela_login(janela: ctk.CTkFrame | ctk.CTk):
 
-    curva = ctk.CTkImage(
-    light_image=Image.open("imagens/curva_rodape.png"),
-    dark_image=Image.open("imagens/curva_rodape.png"),
-    size=(2000, 200)
-    )
+    tela = ctk.CTkFrame(janela,fg_color='#FAFEFC')
+    tela.place(relwidth=1, relheight=1)
 
-    linha = ctk.CTkImage(
-    light_image=Image.open("imagens/lar_esperanca.png"),
-    dark_image=Image.open("imagens/lar_esperanca.png"),
-    size=(450, 80)
-    )
+    fotologin = imagemCTK("imagens/logintransp.png", 920, 920)
+    curva = imagemCTK("imagens/curva_rodape.png", 1920, 150)
+    linha = imagemCTK("imagens/lar_esperanca.png", 450, 80)
 
-    # FUNÇÕES ------------------------------------------------------
     def imagem_tela (janela, imagem, posicaox, posicaoy):
 
         image_label = ctk.CTkLabel(janela, image=imagem, text="")
@@ -41,14 +26,14 @@ if __name__ == '__main__':
         pywinstyles.set_opacity(image_label, color="#FAFEFC")
 
 
-    imagem_tela(janela, fotologin, 0.3, 0.49)
-    imagem_tela(janela, curva, 0.5, 0.91)
-    imagem_tela(janela, linha, 0.74, 0.28)
+    imagem_tela(tela, fotologin, 0.3, 0.49)
+    imagem_tela(tela, curva, 0.5, 0.93)
+    imagem_tela(tela, linha, 0.74, 0.28)
 
     def quadrados(cor, bg, width, height, posicaox, posicaoy):
 
         ctk.CTkFrame(
-        janela, 
+        tela, 
         width= width, 
         height= height,
         fg_color = cor,
@@ -73,7 +58,7 @@ if __name__ == '__main__':
             fonte_com_estilo = (nome_fonte, tamanho_fonte, "normal")
 
         ctk.CTkLabel(
-            janela, 
+            tela, 
             text=texto,
             font=fonte_com_estilo,
             text_color=cor_texto,
@@ -87,7 +72,7 @@ if __name__ == '__main__':
 
 
     user_entry = ctk.CTkEntry(
-        janela, 
+        tela, 
         width= 380, 
         height= 40,
         border_color = "#8ED6D0",
@@ -98,7 +83,7 @@ if __name__ == '__main__':
     user_entry.place(relx= 0.74, rely= 0.5, anchor="center")
 
     senha_entry = ctk.CTkEntry(
-        janela, 
+        tela, 
         width= 380, 
         height= 40,
         border_color = "#8ED6D0",
@@ -110,7 +95,7 @@ if __name__ == '__main__':
     senha_entry.place(relx= 0.74, rely= 0.585, anchor="center")
 
     logar = ctk.CTkButton(
-        janela,
+        tela,
         text="Logar",
         font=(U.simples),
         width=120, 
@@ -123,7 +108,7 @@ if __name__ == '__main__':
     logar.place(relx=0.74, rely=0.66, anchor="center")
 
     clique_aqui = ctk.CTkButton(
-        janela,
+        tela,
         text= "Clique aqui!",
         font=(U.simples_underline),
         width=50, 
@@ -136,11 +121,20 @@ if __name__ == '__main__':
     clique_aqui.place(relx=0.74, rely=0.75, anchor="center")
     textos("Não tem cadastro?", U.simples, "normal", "#97BCAA", "transparent", 0.74, 0.72)
 
-    # Só pra ter noção de espaço -----------------------------------------
-    hotbar_frame = ctk.CTkFrame(janela, width=janela.winfo_width(), height=98, fg_color='#8ED6D0', corner_radius=0)
-    hotbar_frame.place(relx=.5, rely=.045, anchor="center")
-    # back_icon = ctk.CTkLabel(janela, text='', image=imagemCTK('imagens/hotbar/back_icon.png', 40, 40))
-    # back_icon.place(relx=.02, rely=.12, anchor='center')
+    # # Só pra ter noção de espaço -----------------------------------------
+    # hotbar_frame = ctk.CTkFrame(tela, width=janela.winfo_width(), height=98, fg_color='#8ED6D0', corner_radius=0)
+    # hotbar_frame.place(relx=.5, rely=.045, anchor="center")
+    # # back_icon = ctk.CTkLabel(janela, text='', image=imagemCTK('imagens/hotbar/back_icon.png', 40, 40))
+    # # back_icon.place(relx=.02, rely=.12, anchor='center')
 
+    return tela
+
+if __name__ == '__main__':
+    janela = ctk.CTk()
+    janela.state('zoomed')
+    janela.geometry(f'{janela.winfo_width()}x{janela.winfo_height()}')
+    janela.configure(fg_color='#FAFEFC')
+    janela.title("Login")
+    janela.resizable(False, False)
+    tela_login(janela)
     janela.mainloop()
-
