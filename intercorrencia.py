@@ -7,22 +7,10 @@ class Intercorrencia:
   def __init__(self) -> None:
     self.root = ctk.CTk()
     self.root.after(0, lambda:self.root.state('zoomed'))
-    # self.root.resizable(False, False)
     self.frame = ctk.CTkFrame(self.root, fg_color='white', corner_radius=0)
     self.frame.place(relwidth=1, relheight=1)
     hotbar = Hotbar(self.frame)
     self.root.title("Lar Esperança")
-
-  def set_geometry(self, master, width, height):
-    screen_width = self.root.winfo_screenwidth()
-    screen_height = self.root.winfo_screenheight()
-    app_width = width
-    app_height = height
-
-    x = (screen_width // 2) - (app_width // 2)
-    y = (screen_height // 2) - (app_height // 2)
-
-    master.geometry(f'{app_width}x{app_height}+{x}+{y}')
   
   def texto(self, master, text, f_texto, x, y, color='Black'):
       texto = ctk.CTkLabel(master, text=text, font=(f_texto), text_color=color)
