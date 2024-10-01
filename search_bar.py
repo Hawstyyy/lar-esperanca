@@ -1,6 +1,7 @@
 from typing import Tuple
 import customtkinter as ctk
 from customtkinter import CTkFrame
+from tkinter import messagebox
 from util import FontsUI as F
 from db_handler import DB
 
@@ -67,12 +68,15 @@ class SearchBar(CTkFrame):
             #Faz o cursor ir para posição final depois setar o valor do entry
             self._entry.after(10, lambda: self._entry.icursor(self._entry.index('end'))) 
 
-        # Cancela o after caso exista, pois um novo digito foi inserido no entry
-        if hasattr(self, '_after_id'):
-            self.after_cancel(self._after_id)
+        #Espera o usuário parar de digitar para então criar a lista de opções
+        if hasattr(self, '_after_create_options'):
+            self.after_cancel(self._after_create_options)
+        self._after_create_options = self.after(500, self.create_list_buttons)
 
-        #Agenda um novo after para execução após de 500ms, que cria a lista de opções
-        self._after_id = self.after(500, self.create_list_buttons)
+        #Remove as opções depois 5s, se nenhuma for selecionada
+        if(hasattr(self, '_after_remove_options')):
+            self.after_cancel(self._after_remove_options)
+        self._after_remove_options = self.after(5000, self.destroy_list)
 
     def set_entry_text(self, id: str):
         """Adiciona o texto selecionado no entry e remove a lista de opções. Lida com a interação com o trace para evitar erros"""
@@ -89,26 +93,29 @@ class SearchBar(CTkFrame):
         self._values.clear()
 
         query = f"select {primary},{column} from {table} where {column} like %s"
-
-        db = DB()
-        #Pega as primeiras 10 linhas caso existam, que começam com o valor digitado
-        like_value = f'{self._entry_var.get()}%'
-        db.exec(query, (like_value,))
-
-        for linha in db.f_many(10):
-            self._values[linha[0]] = linha[1]
-
-        len_dic = len(self._values)
-
-        if(len_dic < 10):
-            #Adiciona elementos com nome parecido até no maximo 10 elementos
-            like_value = f'%{self._entry_var.get()}%'
+        try:
+            db = DB()
+            #Pega as primeiras 10 linhas caso existam, que começam com o valor digitado
+            like_value = f'{self._entry_var.get()}%'
             db.exec(query, (like_value,))
 
-            for row in db.f_many(10 - len_dic):
-                self._values[row[0]] = row[1]
+            for linha in db.f_many(10):
+                self._values[linha[0]] = linha[1]
 
-        db.close()
+            len_dic = len(self._values)
+
+            if(len_dic < 10):
+                #Adiciona elementos com nome parecido até no maximo 10 elementos
+                like_value = f'%{self._entry_var.get()}%'
+                db.exec(query, (like_value,))
+
+                for row in db.f_many(10 - len_dic):
+                    self._values[row[0]] = row[1]
+
+            db.close()
+        except Exception as e:
+            messagebox.showerror('Erro de conexão!', f'Ocorreu um erro ao conectar ao banco de dados!\nErro: {e}')
+            print(f'Ocorreu um erro ao conectar ao banco de dados!\nErro: {e}')
 
     def create_list_buttons(self):
         """Cria a lista de botões abaixo do entry"""
@@ -155,9 +162,10 @@ class SearchBar(CTkFrame):
 
     def destroy_list(self):
         """Remove a lista de botões"""
-        for item in self._list_butoes:
-            item.destroy()
-        self.configure(height=self._height)
+        if(len(self._list_butoes)):
+            for item in self._list_butoes:
+                item.destroy()
+            self.configure(height=self._height)
 
 if __name__ == "__main__":
     root = ctk.CTk()

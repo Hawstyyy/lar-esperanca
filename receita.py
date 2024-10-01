@@ -145,10 +145,6 @@ class Receita(CTkFrame):
         )
         self.b_adicionar.place(relx=0.5, rely=0.7, anchor='n')
 
-        #self.search_remedio.tkraise()
-        #self.search_paciente.tkraise()
-
-
 if __name__ == "__main__":
     root = ctk.CTk()
     root.geometry(f'{root.winfo_width()}x{root.winfo_height()}')
