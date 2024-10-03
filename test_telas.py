@@ -3,6 +3,8 @@ from cadastro import cadastro
 from hotbar import Hotbar
 import customtkinter as ctk
 
+from telalogin import tela_login
+
 if __name__ == '__main__':
     root = ctk.CTk()
     root.geometry(f'{root.winfo_width()}x{root.winfo_height()}')
@@ -12,7 +14,7 @@ if __name__ == '__main__':
     root.resizable(False, False)
 
 
-    tela = cadastro(root)
+    tela = tela_login(root)
     hotbar = Hotbar(tela)
     #hotbar.user_forget()
 
