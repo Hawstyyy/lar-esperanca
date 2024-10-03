@@ -16,7 +16,47 @@ class Sinais_vitais(CTkFrame):
 
     self.sinal = self.sinais_vitais()
     self.place(relwidth=1, relheight=1)
+
+    # Chaves de validação
+
+    # Valide Temperatura
+    self.validacao_entry_temperatura = (self.register(self.validate_temperatura), '%S', '%P', '%i')
+    # Valide Pressão Sanguinea 1
+    self.validacao_entry_pressao_1 = (self.register(self.validate_pressao_1), '%S', '%P', '%i')
+    # Valide Pressão Sanguinea 2
+    self.validacao_entry_pressao_2 = (self.register(self.validate_pressao_2), '%S', '%P', '%i')
+    # Valide Batimentos
+    self.validacao_entry_batimentos= (self.register(self.validate_batimentos), '%S', '%P', '%i')
+    # Valide Saturação
+    self.validacao_entry_saturacao = (self.register(self.validate_saturacao), '%S', '%P', '%i')
   
+  def validate_temperatura(self, char: str, current_text: str, cursor_position: int):
+
+        if len(current_text) > 4:
+
+            return False
+
+        if current_text == '':
+
+            return True
+        
+        if current_text == '.':
+            
+            return True
+
+        if not current_text.isdigit():
+
+            return False
+
+        if int(current_text) < 0 or int(current_text) > 70:
+
+            return False
+
+        if(len(current_text) == 3):
+
+            self.pressao_cliente_entry_1.focus()
+
+        return True
   def insercao(self):    
     # É Feito primeiro a verificação dos dados inseridos nos entries, primeiro é checado se só possue numeros inseridos nos entries de valores.
     try:
@@ -101,7 +141,9 @@ class Sinais_vitais(CTkFrame):
     # Temperatura cliente
     temperatura_cliente = ctk.CTkLabel(self, text= "Temperatura", text_color="black", font= ("Segoe UI",28))
     temperatura_cliente.place(rely = 0.45, relx = 0.425, anchor = "center")
-    self.temperatura_cliente_entry = ctk.CTkEntry(self, text_color= "black", fg_color= "#8ED6D0",font= ("Segoe UI",36), border_width= 0, corner_radius= 10, width= 140)
+
+    self.temperatura_cliente_entry = ctk.CTkEntry(self, text_color= "black", fg_color= "#8ED6D0",font= ("Segoe UI",36), border_width= 0, corner_radius= 10, width= 140, validate="key",validatecommand=self.validacao_entry_temperatura)
+
     self.temperatura_cliente_entry.place(rely = 0.5, relx = 0.423, anchor = "center")
     # Pressão Sanguinea
     pressao_cliente = ctk.CTkLabel(self, text= "Pressão Sanguinea", text_color="black", font= ("Segoe UI",28))
