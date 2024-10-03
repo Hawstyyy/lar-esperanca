@@ -8,15 +8,14 @@ class HourEntry(CTkFrame):
     """Uma SearchBar que permite selecionar um valor da lista. Selecionar um valor aplica o valor ao Entry e remover a lista da tela"""
     def __init__(self, master: CTkFrame, width: int = 200, height: int = 200, corner_radius: int | str | None = None, border_width: int | str | None = None, bg_color: str | Tuple[str, str] = "transparent", fg_color: str | Tuple[str, str] | None = None, border_color: str | Tuple[str, str] | None = None, background_corner_colors: Tuple[str | Tuple[str, str]] | None = None, overwrite_preferred_drawing_method: str | None = None, **kwargs):
         super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs)
-
         self._WT = '#ffffff'
         self._BT = '#000000'
         self._COR = '#8ED6D0'
         self._height = height
         self._hover = '#BBF4F0'
 
-        validate_entry_hour = (self.register(self.validate_hour), '%S', '%P', '%i')
-        validate_entry_minute = (self.register(self.validate_minute), '%S', '%P', '%i')
+        self._validate_entry_hour = (self.register(self.validate_hour), '%S', '%P', '%i')
+        self._validate_entry_minute = (self.register(self.validate_minute), '%S', '%P', '%i')
 
         #Variaveis do entry
         #self._var = ctk.StringVar()
@@ -39,19 +38,28 @@ class HourEntry(CTkFrame):
             height=self._height,
             width=self.winfo_reqwidth(),
             validate="key",
-            validatecommand=validate_entry_hour
+            validatecommand=self._validate_entry_hour
         )
         #Configuração para permitir entry propagar para o tamanho do frame
         self._entry_hour.grid(row=0, column=0, sticky='nsew')
 
         #Label :
-        self._label = ctk.CTkLabel(self, width=15, height=self._height, text=':', fg_color='white', bg_color=self._WT, font=F.simples, text_color=self._BT)
+        self._label = ctk.CTkLabel(self,
+            #corner_radius=5,
+            width=10,
+            height=self._height,
+            text=':',
+            fg_color='white',
+            bg_color='white',
+            font=F.simples,
+            text_color=self._BT
+        )
         self._label.grid(row=0, column=1)
 
         #Entry Minute
         self._entry_minute = ctk.CTkEntry(
             self,
-            corner_radius=5,
+            #corner_radius=5,
             fg_color=self._COR,
             text_color=self._BT,
             bg_color=self._WT,
@@ -60,7 +68,7 @@ class HourEntry(CTkFrame):
             height=self._height,
             width=self.winfo_reqwidth(),
             validate="key",
-            validatecommand=validate_entry_minute
+            validatecommand=self._validate_entry_minute
         )
         #Configuração para permitir entry propagar para o tamanho do frame
         self._entry_minute.grid(row=0, column=2, sticky='nsew')
@@ -74,6 +82,7 @@ class HourEntry(CTkFrame):
             return (int(self._entry_hour.get()), int(self._entry_minute.get()))
 
     def validate_hour(self, char: str, current_text: str, cursor_position: int):
+
         if len(current_text) > 2:
             return False
         if current_text == '':
@@ -81,6 +90,12 @@ class HourEntry(CTkFrame):
         if not current_text.isdigit():
             return False
         if int(current_text) < 0 or int(current_text) > 23:
+            return False
+        if int(current_text) > 2 and int(current_text) < 10 and len(current_text) < 2:
+            self._entry_hour.delete(0, 'end')
+            self._entry_hour.insert(0, f'0{current_text}')
+            self._entry_hour.configure(validate='key', validatecommand=self._validate_entry_hour)
+            self._entry_minute.focus()
             return False
 
         if(len(current_text) == 2):
@@ -91,6 +106,7 @@ class HourEntry(CTkFrame):
         if len(current_text) > 2:
             return False
         if current_text == '':
+            self._entry_hour.focus()
             return True
         if not current_text.isdigit():
             return False
