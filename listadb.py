@@ -32,7 +32,7 @@ def lista_padrao(janela: ctk.CTkFrame | ctk.CTk):
     JOIN 
         sinal_vital s ON p.id_paciente = s.id_paciente
     JOIN 
-        estado_risco er ON s.id_estado_risco = er.id_estado_risco  -- Certifique-se de que esta junção está correta
+        estado_risco er ON s.id_estado_risco = er.id_estado_risco
     ORDER BY 
         p.id_paciente;
         """
