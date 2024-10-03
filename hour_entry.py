@@ -15,18 +15,20 @@ class HourEntry(CTkFrame):
         self._height = height
         self._hover = '#BBF4F0'
 
-        validate_var = (self.register(self.validate_time_input), '%S', '%P', '%i')
+        validate_entry_hour = (self.register(self.validate_hour), '%S', '%P', '%i')
+        validate_entry_minute = (self.register(self.validate_minute), '%S', '%P', '%i')
 
         #Variaveis do entry
-        self._var = ctk.StringVar()
-        self.set_callback_var()
+        #self._var = ctk.StringVar()
 
         # Configure grid to make the entry expand
-        self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=10)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=10)
 
-        #Criação do entry incial
-        self._entry = ctk.CTkEntry(
+        #Entry Hour
+        self._entry_hour = ctk.CTkEntry(
             self,
             corner_radius=5,
             fg_color=self._COR,
@@ -36,123 +38,64 @@ class HourEntry(CTkFrame):
             border_width=0,
             height=self._height,
             width=self.winfo_reqwidth(),
-            textvariable=self._var,
             validate="key",
-            validatecommand=validate_var
+            validatecommand=validate_entry_hour
         )
-
         #Configuração para permitir entry propagar para o tamanho do frame
-        self._entry.grid(row=0, column=0, sticky='nsew')
+        self._entry_hour.grid(row=0, column=0, sticky='nsew')
+
+        #Label :
+        self._label = ctk.CTkLabel(self, width=15, height=self._height, text=':', fg_color='white', bg_color=self._WT, font=F.simples, text_color=self._BT)
+        self._label.grid(row=0, column=1)
+
+        #Entry Minute
+        self._entry_minute = ctk.CTkEntry(
+            self,
+            corner_radius=5,
+            fg_color=self._COR,
+            text_color=self._BT,
+            bg_color=self._WT,
+            font=F.simples,
+            border_width=0,
+            height=self._height,
+            width=self.winfo_reqwidth(),
+            validate="key",
+            validatecommand=validate_entry_minute
+        )
+        #Configuração para permitir entry propagar para o tamanho do frame
+        self._entry_minute.grid(row=0, column=2, sticky='nsew')
 
         #Faz frame respeitar o tamanho dado no input
         self.grid_propagate(False)
 
-### Métodos da Classe
-    def set_callback_var(self):
-        """Adiciona o callback na variavel presente no entry e salva o nome do callback. É necessário salvar o nome gerado por trace_add quando o callback é adicionado, para remoção  posterior..."""
-        self._callback_name = self._var.trace_add('write', self.e_callback)
+###Métodos da Classe
+    def get_time(self) -> tuple[int]:
+        if(len(self._entry_hour.get()) != 0 and len(self._entry_minute.get()) != 0):
+            return (int(self._entry_hour.get()), int(self._entry_minute.get()))
+
+    def validate_hour(self, char: str, current_text: str, cursor_position: int):
+        if len(current_text) > 2:
+            return False
+        if current_text == '':
+            return True
+        if not current_text.isdigit():
+            return False
+        if int(current_text) < 0 or int(current_text) > 23:
+            return False
+
+        if(len(current_text) == 2):
+            self._entry_minute.focus()
+        return True
     
-
-    def _remove_last(self):
-        self._var.set(self._var.get()[:-1])
-        
-    def _get_last(self):
-        return self._var.get()[-1]
-    
-    def _add_separator(self):
-        self._var.set(self._var.get() + ':')
-        self._entry.after(5, lambda: self._entry.icursor(self._entry.index('end'))) 
-    
-    def _in_between(self, ini: int, end: int):
-        try:
-            num = int(self._get_last())
-
-            if(num >= ini and num <= end):
-                return True
+    def validate_minute(self, char: str, current_text: str, cursor_position: int):
+        if len(current_text) > 2:
             return False
-        except ValueError as e:
-            print(f'Valor não é um número: {e}')
-
-    def _is_pos_valide(self, pos: int) -> bool:
-        try:
-            return self._var.get()[pos].isdigit()
-        except IndexError as e:
-            print(f'Index inválido: {e}')
-
-    def e_callback(self, var, index, mode):
-        pass
-        #if(len(self._var.get()) and not self._is_pos_valide(0)):
-
-
-        # match(len(temp)):
-        #     case 1:
-        #         if(not self._is_valide()):
-        #             self._remove_last()
-        #             return
-        #         elif(self._in_between(0 , 2)):
-        #             return
-
-        #         self._var.set('0' + temp)
-        #         self._add_separator()
-
-        #     case 2:
-        #         if(not self._is_valide()):
-        #             self._remove_last()
-        #             return
-        #         elif(temp[0] == '2' and not self._in_between(0, 3)):
-        #             self._remove_last()
-        #             return
-
-        #         self._add_separator()
-
-        #     case 3:
-        #         if(not self._get_last() == ':'):
-        #             self._remove_last()
-        #             self._add_separator()
-        #             return
-
-        #     case 4:
-        #         if(not self._is_valide()):
-        #             self._remove_last()
-        #             return
-        #         elif(not self._in_between(0, 5)):
-        #             self._remove_last()
-        #             return
-        #         return
-
-        #     case 5:
-        #         if(not self._is_valide()):
-        #             self._remove_last()
-        #             return
-        #         return
-
-        #     case _:
-        #         self._remove_last()
-        #         return
-
-    def validate_time_input(self, char: str, current_text: str, cursor_position: int):
-        print(char, current_text, cursor_position, sep=' - ')
-        if len(current_text) > 5:
+        if current_text == '':
+            return True
+        if not current_text.isdigit():
             return False
-
-        # Permite apenas números e ':' na posição do index
-        if cursor_position == 2 and char != ':':
+        if int(current_text) < 0 or int(current_text) > 59:
             return False
-        if cursor_position != 2 and not char.isdigit():
-            return False
-
-        # Valida as horas
-        if len(current_text) >= 2:
-            hour = current_text[:2]
-            if hour.isdigit() and (int(hour) < 0 or int(hour) > 23):
-                return False
-
-        # Valida os minutos
-        if len(current_text) == 5:
-            minute = current_text[3:]
-            if minute.isdigit() and (int(minute) < 0 or int(minute) > 59):
-                return False
-
         return True
 
 if __name__ == "__main__":
@@ -163,6 +106,6 @@ if __name__ == "__main__":
     root.title("Nova Receita")
     root.resizable(False, False)
 
-    frame = HourEntry(root, width=300, height=40)
+    frame = HourEntry(root, width=100, height=40)
     frame.place(relx=0.5,rely=0.5, anchor='n')
     root.mainloop()
