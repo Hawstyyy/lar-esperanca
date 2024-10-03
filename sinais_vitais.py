@@ -3,6 +3,7 @@ from hotbar import Hotbar
 from util import imagemCTK, basePath
 from customtkinter import CTkFrame
 import db_handler as db
+from tkinter import messagebox
  
 class Sinais_vitais(CTkFrame):
   def __init__(self, frame: CTkFrame, id_paciente: int) -> None:
@@ -16,8 +17,25 @@ class Sinais_vitais(CTkFrame):
     self.sinal = self.sinais_vitais()
     self.place(relwidth=1, relheight=1)
   
-  def insercao(self):
-    print("huh")
+  def insercao(self):    
+    # É Feito primeiro a verificação dos dados inseridos nos entries, primeiro é checado se só possue numeros inseridos nos entries de valores.
+    try:
+       # Temperatura
+       float(self.temperatura_cliente_entry.get())
+
+       # Pressão Sanguinea
+       int(self.pressao_cliente_entry_1.get())
+       int(self.pressao_cliente_entry_2.get())
+
+       # BPM
+       int(self.bpm_cliente_entry.get())
+
+       # Saturação
+       float(self.saturacao_cliente_entry.get())
+    except:
+       messagebox.showerror("Erro","Alguma entrada não é composta inteiramente por números")
+    # Agora é feito a verificação 
+    
  
   def atualizar_status(self):
     if self.status_label is None:
@@ -57,6 +75,7 @@ class Sinais_vitais(CTkFrame):
       # We found a record in this patient, so we must insert its values into the entries.
     else:
       print("huh")
+    self.database.close()
 
   def mudar_paciente(self, novo_paciente: int):
      self.id_paciente = novo_paciente
