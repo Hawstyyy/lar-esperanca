@@ -6,6 +6,7 @@ from util import imagemCTK, FontsUI
 from hotbar import Hotbar
 from db_handler import DB
 from search_bar import SearchBar
+from hour_entry import HourEntry
 from datetime import date, datetime, time, timedelta
 
 #-----------------------TELA --------------------------------
@@ -13,7 +14,7 @@ from datetime import date, datetime, time, timedelta
 class Receita(CTkFrame):
     BGC = '#ffffff'
     COR = '#8ED6D0'
-    TX = '#000000'
+    TX = '#18504B'
 
     def __init__(self, master: CTkFrame, user:str):
         super().__init__(master)
@@ -93,15 +94,8 @@ class Receita(CTkFrame):
             anchor='w'
         ).place(relx=0, rely=0.55, anchor='sw', relwidth=0.54)
 
-        self.e_hora_inicial = ctk.CTkEntry(
-            self.f_holder,
-            corner_radius=5,
-            fg_color=self.COR,
-            font=FontsUI.simples,
-            text_color='#ffffff',
-            border_width=0
-        )
-        self.e_hora_inicial.place(relx=0, rely=0.55, anchor='nw', relwidth=0.54)
+        self.e_hora = HourEntry(self.f_holder, width=100, height=40)
+        self.e_hora.place(relx=0, rely=0.55, anchor='nw')
 
         #Intervalo
         ctk.CTkLabel(
@@ -113,15 +107,19 @@ class Receita(CTkFrame):
             anchor='w'
         ).place(relx=1, rely=0.55, anchor='se', relwidth=0.42)
 
-        self.e_hora_inicial = ctk.CTkEntry(
+        validate_entry_hour = (self.register(self.validate_hour), '%S', '%P', '%i')
+
+        self.e_hora_intervalo = ctk.CTkEntry(
             self.f_holder,
             corner_radius=5,
             fg_color=self.COR,
             font=FontsUI.simples,
             text_color='#ffffff',
-            border_width=0
+            border_width=0,
+            validate="key",
+            validatecommand=validate_entry_hour
         )
-        self.e_hora_inicial.place(relx=1, rely=0.55, anchor='ne', relwidth=0.42)
+        self.e_hora_intervalo.place(relx=1, rely=0.55, anchor='ne', relwidth=0.42)
 
         self.b_adicionar = ctk.CTkButton(
             self.f_holder,
@@ -132,10 +130,22 @@ class Receita(CTkFrame):
             text_color='#ffffff',
             border_width=0,
             command=
-                lambda: print('yoo'), hover_color='#2D5E6C'
+                lambda: print(self.e_hora.get_time()),
+            hover_color='#2D5E6C'
         )
         self.b_adicionar.place(relx=0.5, rely=0.7, anchor='n')
 
+    def validate_hour(self, char: str, current_text: str, cursor_position: int):
+        if len(current_text) > 2:
+            return False
+        if current_text == '':
+            return True
+        if not current_text.isdigit():
+            return False
+        if int(current_text) < 0 or int(current_text) > 23:
+            return False
+
+        return True
 if __name__ == "__main__":
     root = ctk.CTk()
     root.geometry(f'{root.winfo_width()}x{root.winfo_height()}')
