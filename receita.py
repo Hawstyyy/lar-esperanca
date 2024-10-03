@@ -107,17 +107,17 @@ class Receita(CTkFrame):
             anchor='w'
         ).place(relx=1, rely=0.55, anchor='se', relwidth=0.42)
 
-        validate_entry_hour = (self.register(self.validate_hour), '%S', '%P', '%i')
+        self.validate_entry_hour = (self.register(self.validate_hour), '%S', '%P', '%i')
 
         self.e_hora_intervalo = ctk.CTkEntry(
             self.f_holder,
             corner_radius=5,
             fg_color=self.COR,
             font=FontsUI.simples,
-            text_color='#ffffff',
+            text_color='#000000',
             border_width=0,
             validate="key",
-            validatecommand=validate_entry_hour
+            validatecommand=self.validate_entry_hour
         )
         self.e_hora_intervalo.place(relx=1, rely=0.55, anchor='ne', relwidth=0.42)
 
@@ -127,10 +127,9 @@ class Receita(CTkFrame):
             corner_radius=5,
             fg_color=self.COR,
             font=FontsUI.simples,
-            text_color='#ffffff',
+            text_color='#000000',
             border_width=0,
-            command=
-                lambda: print(self.e_hora.get_time()),
+            command=self.validate_receita,
             hover_color='#2D5E6C'
         )
         self.b_adicionar.place(relx=0.5, rely=0.7, anchor='n')
@@ -144,8 +143,25 @@ class Receita(CTkFrame):
             return False
         if int(current_text) < 0 or int(current_text) > 23:
             return False
+        # if int(current_text) > 2 and int(current_text) < 10 and len(current_text) < 2:
+        #     self.e_hora_intervalo.delete(0, 'end')
+        #     self.e_hora_intervalo.insert(0, f'0{current_text}')
+        #     self.e_hora_intervalo.configure(validate='key', validatecommand=self.validate_entry_hour)
+        #     return False y
 
         return True
+    
+    def validate_receita(self):
+        if(self.search_paciente._selected_id
+            and self.search_remedio._selected_id
+            and self.e_hora.get_time()
+            and self.e_hora_intervalo.get()
+        ):
+            print(self.search_paciente._selected_id,
+            self.search_remedio._selected_id,
+            self.e_hora.get_time(),
+            self.e_hora_intervalo.get())
+
 if __name__ == "__main__":
     root = ctk.CTk()
     root.geometry(f'{root.winfo_width()}x{root.winfo_height()}')
@@ -156,8 +172,8 @@ if __name__ == "__main__":
     frame = Receita(root, 'Brabo')
 
 
-    dt = datetime.combine(date.today(), time(13, 20)) + timedelta(minutes=10)
-    print (dt.time())
+    #dt = datetime.combine(date.today(), time(13, 20)) + timedelta(hours=15)
+    #print (dt.time())
 
     root.mainloop()
     

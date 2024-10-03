@@ -14,7 +14,7 @@ if __name__ == '__main__':
     root.resizable(False, False)
 
 
-    tela = tela_login(root)
+    tela = cadastro(root)
     hotbar = Hotbar(tela)
     #hotbar.user_forget()
 

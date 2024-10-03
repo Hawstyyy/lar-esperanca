@@ -8,7 +8,8 @@ from hotbar import Hotbar
 class Cadastro():
   def __init__(self) -> None:
     self.root = ctk.CTk()
-    self.root.geometry('1440x900')
+    self.root.geometry('1920x1000')
+    self.root.state('zoomed')
     self.root.resizable(False, False)
 
   def basePath(self):
