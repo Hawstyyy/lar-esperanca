@@ -25,7 +25,7 @@ def lista_padrao(janela: ctk.CTkFrame | ctk.CTk):
         s.pressao_cardiaca, 
         CONCAT(s.pressao_sistolica, '/', s.pressao_diastolica) AS pressao_arterial, 
         s.saturacao, 
-        er.estado AS estado_risco,  -- Aqui estamos selecionando o estado
+        er.estado AS estado_risco,
         p.status_paciente
     FROM 
         paciente p
