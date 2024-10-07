@@ -1,4 +1,4 @@
--- Active: 1726844979079@@35.198.53.133@3306@laresperanca
+-- Active: 1726798438564@@34.95.139.73@3306@laresperanca
 use laresperanca;
 
 CREATE Table funcionario (
@@ -34,11 +34,13 @@ CREATE TABLE receita (
     id_receita INT PRIMARY KEY AUTO_INCREMENT,
     id_paciente int,
     id_remedio int,
+    id_funcionario int,
     status_remedio BOOLEAN,
     horario_inicial TIME,
     intervalo_remedio TINYINT,
     Foreign Key (id_paciente) REFERENCES paciente(id_paciente),
-    Foreign Key (id_remedio) REFERENCES remedio(id_remedio)
+    Foreign Key (id_remedio) REFERENCES remedio(id_remedio),
+    Foreign Key (id_funcionario) REFERENCES funcionario(id_funcionario)
 );
 
 CREATE Table sinal_vital (
