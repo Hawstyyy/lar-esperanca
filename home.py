@@ -2,13 +2,9 @@ import customtkinter as ctk
 from tkinter import ttk
 from tkinter import messagebox
 from PIL import Image
+from util import imagemCTK
  
 # TELA --------------------------------------------------------
- 
-import customtkinter as ctk
-from tkinter import ttk
-from tkinter import messagebox
-from PIL import Image
 
 # Função para abrir nova janela ou realizar ações dos botões
 def abrir_pacientes():
@@ -30,29 +26,9 @@ janela.after(0, janela.state('zoomed'))
 janela.configure(fg_color='white')
 janela.title("Home")
 
-# Cabeçalho superior -----------------------------------------
-frame_top = ctk.CTkFrame(janela, height=70, fg_color='#EAF6F7', corner_radius=0)
-frame_top.pack(side="top", fill="x")
-
-# Ícone usuário
-img_user = Image.open("/Users/RicardoSilva/Downloads/Captura de tela_24-9-2024_91526_www.figma.com.jpeg")  # Coloque o caminho para a imagem do ícone do usuário
-img_user = img_user.resize((80, 80), Image.LANCZOS)
-user_icon = ctk.CTkImage(img_user)
-user_label = ctk.CTkLabel(frame_top, image=user_icon, text="NomeUser", fg_color="transparent", anchor="w")
-user_label.place(x=1200, y=15)  # Ajuste as coordenadas conforme necessário
-
-# Ícone logotipo
-img_logo = Image.open("/Users/RicardoSilva/Downloads/amoreesperanca (1).png")  # Substitua pelo caminho para seu logotipo
-img_logo = img_logo.resize((100, 100),Image.LANCZOS)
-logo_icon = ctk.CTkImage(img_logo)
-logo_label = ctk.CTkLabel(frame_top, image=logo_icon, text="", fg_color="transparent")
-logo_label.place(x=10, y=15)  # Ajuste as coordenadas conforme necessário
-
 # Conteúdo principal ----------------------------------------
 # Adicionando a imagem da médica no centro
-img_doctor = Image.open("/Users/RicardoSilva/Downloads/Captura de tela_24-9-2024_82432_www.figma.com.jpeg")  # Substitua pelo caminho para a imagem da médica
-img_doctor = img_doctor.resize((700, 600), Image.LANCZOS)
-doctor_img = ctk.CTkImage(img_doctor)
+doctor_img = imagemCTK('imagens/fotomulher.png', 600, 700)
 doctor_label = ctk.CTkLabel(janela, image=doctor_img, text="", fg_color="transparent")
 doctor_label.place(x=50, y=200)  # Ajuste as coordenadas conforme necessário
 

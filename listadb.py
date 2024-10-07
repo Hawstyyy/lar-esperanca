@@ -4,7 +4,7 @@ from util import imagemCTK as img
 from util import imagem as imgplace
 from db_handler import DB
 
-def lista_padrao(janela: ctk.CTkFrame | ctk.CTk):
+def lista_padrao(janela: ctk.CTkFrame | ctk.CTk, id_funcionario):
     global dic_teste, dic_teste_original, index_pag
 
     tela = ctk.CTkFrame(janela,fg_color='#FAFEFC')
@@ -33,10 +33,11 @@ def lista_padrao(janela: ctk.CTkFrame | ctk.CTk):
         sinal_vital s ON p.id_paciente = s.id_paciente
     JOIN 
         estado_risco er ON s.id_estado_risco = er.id_estado_risco
+    WHERE p.id_funcionario = %s
     ORDER BY 
-        p.id_paciente;
+        p.id_paciente
         """
-        db.exec(query)
+        db.exec(query,((id_funcionario)))
         resultados = db.f_all()
         
         for row in resultados:
