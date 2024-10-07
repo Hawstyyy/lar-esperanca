@@ -5,12 +5,13 @@ from util import imagem, texto, frame, imagemCTK
 from util import FontsUI as U
 from PIL import Image
 import pywinstyles
-import db_handler as db
-
-# db = db()
+from db_handler import DB
+from util import toHash
+from tkinter import messagebox
+from hotbar import Hotbar
 
 # FUNÇÕES ------------------------------------------------------
-def tela_login(janela: ctk.CTkFrame | ctk.CTk):
+def tela_login(janela: ctk.CTkFrame | ctk.CTk, comando, hotbar: Hotbar):
 
     tela = ctk.CTkFrame(janela,fg_color='#FAFEFC')
     tela.place(relwidth=1, relheight=1)
@@ -78,7 +79,7 @@ def tela_login(janela: ctk.CTkFrame | ctk.CTk):
         border_color = "#8ED6D0",
         fg_color = "#8ED6D0",
         bg_color='#FAFEFC',
-        text_color= "black"
+        text_color= "black" #user get
     )
     user_entry.place(relx= 0.74, rely= 0.5, anchor="center")
 
@@ -88,11 +89,37 @@ def tela_login(janela: ctk.CTkFrame | ctk.CTk):
         height= 40,
         border_color = "#8ED6D0",
         fg_color = "#8ED6D0",
-        bg_color='#FAFEFC',
+        bg_color='#FAFEFC', # senha get
         text_color= "black",
         show = "*"
     )
     senha_entry.place(relx= 0.74, rely= 0.585, anchor="center")
+
+    def validar_user(comando, hotbar:Hotbar):
+        query = 'SELECT id_funcionario, nome_completo FROM funcionario WHERE usuario = %s AND senha = %s;'
+        username = user_entry.get()
+        senha = toHash(senha_entry.get())
+
+        db = DB()
+
+        try:
+            db.exec(query, (username, senha))
+            resultado = db.f_all()
+
+            if resultado:
+                id_funcionario, nome_completo = resultado[0]
+                id_funcionario = int(id_funcionario)
+                print(f"Usuário encontrado: ID = {id_funcionario}, Nome = {nome_completo}")
+                hotbar.user_add(nome_completo.split(' ')[0])
+                comando(id_funcionario)
+            else:
+                messagebox.showerror(message='Usuário ou senha inválidos')
+
+        except Exception as e:
+            print(f"Erro ao validar o usuário: {e}")
+
+        finally:
+            db.close()
 
     logar = ctk.CTkButton(
         tela,
@@ -103,7 +130,8 @@ def tela_login(janela: ctk.CTkFrame | ctk.CTk):
         text_color="White",
         fg_color="#19AAA5",
         hover_color="#3bd9d3",
-        bg_color = '#FAFEFC'
+        bg_color = '#FAFEFC',
+        command=lambda: validar_user (comando, hotbar)
     )
     logar.place(relx=0.74, rely=0.66, anchor="center")
 
