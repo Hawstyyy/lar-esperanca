@@ -7,7 +7,7 @@ from hotbar import Hotbar
 from db_handler import DB
 from search_bar import SearchBar
 from hour_entry import HourEntry
-from datetime import date, datetime, time, timedelta
+from datetime import time
 
 #-----------------------TELA --------------------------------
 
@@ -16,16 +16,16 @@ class Receita(CTkFrame):
     COR = '#8ED6D0'
     TX = '#18504B'
 
-    def __init__(self, master: CTkFrame, user:str):
+    def __init__(self, master: CTkFrame, funcionario:int):
         super().__init__(master)
 
         self.configure(fg_color='white', corner_radius=0)
         self.place(relheigh=1, relwidth=1)
 
-        self.user = user
+        self.func = funcionario
 
         #Hotbar
-        self.f_hotbar = Hotbar(self, self.user)
+        #self.f_hotbar = Hotbar(self, self.user)
         #self.f_hotbar.place(relx=0.5, rely=0, relwidth=1, anchor='n')
 
         #Footer
@@ -143,11 +143,6 @@ class Receita(CTkFrame):
             return False
         if int(current_text) < 0 or int(current_text) > 23:
             return False
-        # if int(current_text) > 2 and int(current_text) < 10 and len(current_text) < 2:
-        #     self.e_hora_intervalo.delete(0, 'end')
-        #     self.e_hora_intervalo.insert(0, f'0{current_text}')
-        #     self.e_hora_intervalo.configure(validate='key', validatecommand=self.validate_entry_hour)
-        #     return False y
 
         return True
     
@@ -157,10 +152,38 @@ class Receita(CTkFrame):
             and self.e_hora.get_time()
             and self.e_hora_intervalo.get()
         ):
-            print(self.search_paciente._selected_id,
-            self.search_remedio._selected_id,
-            self.e_hora.get_time(),
-            self.e_hora_intervalo.get())
+            #print(self.search_paciente._selected_id,
+            #self.search_remedio._selected_id,
+            #self.e_hora.get_time(),
+            #self.e_hora_intervalo.get())
+
+            paciente_id = int(self.search_paciente._selected_id)
+            remedio_id = int(self.search_remedio._selected_id)
+            hora = self.e_hora.get_time()
+            hora_inicial = time(hora[0], hora[1])
+            intervalo = int(self.e_hora_intervalo.get())
+
+            #print(paciente_id, remedio_id, hora_inicial, intervalo)
+
+            try:
+                db = DB()
+                query = """
+                    insert into receita
+                        values (
+                            NULL,
+                            %s,
+                            %s,
+                            %s,
+                            true,
+                            %s,
+                            %s
+                        )
+                """
+                db.exec(query, (paciente_id, remedio_id, self.func, hora_inicial, intervalo))
+                db.commit()
+                db.close()
+            except Exception as e:
+                messagebox.showerror('Algo deu errado!', f'Ocorreu um erro na conexão com o banco de dados!\nErro:{e}')
 
 if __name__ == "__main__":
     root = ctk.CTk()
@@ -169,11 +192,11 @@ if __name__ == "__main__":
     root.configure(fg_color='white')
     root.title("Nova Receita")
     root.resizable(False, False)
-    frame = Receita(root, 'Brabo')
+    frame = Receita(root, 2)
 
 
     #dt = datetime.combine(date.today(), time(13, 20)) + timedelta(hours=15)
     #print (dt.time())
-
+    #print(time(13,45))
     root.mainloop()
     
