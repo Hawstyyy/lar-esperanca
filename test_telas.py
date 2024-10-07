@@ -2,6 +2,7 @@
 from cadastro import cadastro
 from hotbar import Hotbar
 import customtkinter as ctk
+from listadb import lista_padrao
 
 from telalogin import tela_login
 
@@ -14,8 +15,9 @@ if __name__ == '__main__':
     root.resizable(False, False)
 
 
-    tela = cadastro(root)
-    hotbar = Hotbar(tela)
-    #hotbar.user_forget()
+    hotbar = Hotbar(root)
+    hotbar.user_forget()
+    tela = tela_login(root, lambda var: lista_padrao(root, var), hotbar)
+    hotbar.tkraise()
 
     root.mainloop()
